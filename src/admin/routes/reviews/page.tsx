@@ -193,24 +193,25 @@ const ReviewsPage = () => {
         limit: number;
         offset: number;
     }>({
-        queryKey: ["reviews", offset, limit, sorting?.id, sorting?.desc],
+        queryKey: ["reviews", offset, limit],
         queryFn: () =>
             sdk.client.fetch("/admin/reviews", {
                 query: {
                     offset: pagination.pageIndex * pagination.pageSize,
                     limit: pagination.pageSize,
-                    order: sorting
-                        ? `${sorting.desc ? "-" : ""}${sorting.id}`
-                        : "-created_at",
+                    order: "-created_at", // Default server-side sorting
                 },
             }),
+        staleTime: 30000, // Cache for 30 seconds to reduce flashing
+        refetchOnWindowFocus: false, // Prevent unnecessary re-fetches
     });
 
-    // Client-side filtering for status
-    const filteredReviews = useMemo(() => {
+    // Client-side filtering and sorting
+    const filteredAndSortedReviews = useMemo(() => {
         if (!data?.reviews) return [];
 
-        return data.reviews.filter((review) => {
+        // First, filter the reviews
+        let filtered = data.reviews.filter((review) => {
             return Object.entries(filtering).every(([key, value]) => {
                 if (!value || (Array.isArray(value) && value.length === 0)) {
                     return true;
@@ -223,14 +224,76 @@ const ReviewsPage = () => {
                 return true;
             });
         });
-    }, [data?.reviews, filtering]);
+
+        // Then, apply client-side sorting
+        if (sorting) {
+            filtered = filtered.slice().sort((a, b) => {
+                let aVal: any;
+                let bVal: any;
+
+                // Handle different sort fields
+                switch (sorting.id) {
+                    case "product_id":
+                        aVal = a.product_id;
+                        bVal = b.product_id;
+                        break;
+                    case "status":
+                        aVal = a.status;
+                        bVal = b.status;
+                        break;
+                    case "rating":
+                        aVal = a.rating;
+                        bVal = b.rating;
+                        break;
+                    case "created_at":
+                        aVal = new Date(a.created_at);
+                        bVal = new Date(b.created_at);
+                        break;
+                    default:
+                        // @ts-ignore
+                        aVal = a[sorting.id];
+                        // @ts-ignore
+                        bVal = b[sorting.id];
+                }
+
+                // Handle null/undefined values
+                if (aVal == null && bVal == null) return 0;
+                if (aVal == null) return sorting.desc ? 1 : -1;
+                if (bVal == null) return sorting.desc ? -1 : 1;
+
+                // Compare values
+                if (aVal < bVal) return sorting.desc ? 1 : -1;
+                if (aVal > bVal) return sorting.desc ? -1 : 1;
+                return 0;
+            });
+        }
+
+        return filtered;
+    }, [data?.reviews, filtering, sorting]);
+
+    // Reset pagination when filtering changes the number of results
+    const filteredCount = filteredAndSortedReviews.length;
+    const maxPage = Math.max(
+        0,
+        Math.ceil(filteredCount / pagination.pageSize) - 1
+    );
+
+    // Auto-reset pagination if current page is beyond available pages
+    useMemo(() => {
+        if (pagination.pageIndex > maxPage) {
+            setPagination((prev) => ({
+                ...prev,
+                pageIndex: 0,
+            }));
+        }
+    }, [filteredCount, maxPage, pagination.pageIndex]);
 
     const commands = useCommands(refetch);
 
     const table = useDataTable({
         columns,
-        data: filteredReviews,
-        rowCount: filteredReviews.length,
+        data: filteredAndSortedReviews,
+        rowCount: filteredAndSortedReviews.length,
         isLoading,
         pagination: {
             state: pagination,

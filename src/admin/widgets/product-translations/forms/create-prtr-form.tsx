@@ -27,17 +27,14 @@ export const CreateProjectTranslationForm = ({
     defaultValues: {
       language_code: "",
       title: "",
+      sub_title: "",
       description: "",
     },
   });
 
   const languageOpts = [
-    { label: "English", value: "EN" },
     { label: "Arabic", value: "AR" },
     { label: "Russian", value: "RU" },
-    { label: "French", value: "FR" },
-    { label: "German", value: "DE" },
-    { label: "Spanish", value: "ES" },
   ];
 
   const handleSubmit = form.handleSubmit((translation) => {
@@ -51,6 +48,7 @@ export const CreateProjectTranslationForm = ({
       .then(() => {
         toast.success("Translation created");
         setIsOpen(false);
+        form.reset();
         refetch();
       })
       .catch(() => {
@@ -116,6 +114,22 @@ export const CreateProjectTranslationForm = ({
                             </Label>
                           </div>
                           <Input {...field} />
+                        </div>
+                      );
+                    }}
+                  />
+                  <Controller
+                    control={form.control}
+                    name="sub_title"
+                    render={({ field }) => {
+                      return (
+                        <div className="flex flex-col space-y-2">
+                          <div className="flex items-center gap-x-1">
+                            <Label size="small" weight="plus">
+                              Subtitle
+                            </Label>
+                          </div>
+                          <Input {...field} value={field.value || ""} />
                         </div>
                       );
                     }}

@@ -23,11 +23,15 @@ const ProductTranslationDataTable = ({
   isLoading: boolean;
 }) => {
   const [openModal, setOpenModal] = useState(false);
+  const [modalProduct, setModalProduct] = useState<Translation | undefined>(
+    undefined
+  );
 
   const columnHelper = createDataTableColumnHelper<Translation>();
   const columns = [
     columnHelper.accessor("language_code", { header: "Language" }),
     columnHelper.accessor("title", { header: "Title" }),
+    columnHelper.accessor("sub_title", { header: "Subtitle" }),
     columnHelper.accessor("description", { header: "Description" }),
     columnHelper.accessor("id", {
       header: "",
@@ -40,7 +44,10 @@ const ProductTranslationDataTable = ({
                   {
                     icon: <Pencil />,
                     label: "Edit",
-                    onClick: () => setOpenModal(true),
+                    onClick: () => {
+                      setOpenModal(true);
+                      setModalProduct(row.original);
+                    },
                   },
                   {
                     icon: <Trash />,
@@ -66,12 +73,6 @@ const ProductTranslationDataTable = ({
               },
             ]}
           />
-          <UpdateProjectTranslationForm
-            isOpen={openModal}
-            onOpenChange={setOpenModal}
-            initialTranslation={row.original}
-            refetch={refetch}
-          />
         </div>
       ),
     }),
@@ -87,6 +88,14 @@ const ProductTranslationDataTable = ({
 
   return (
     <DataTable instance={table}>
+      {modalProduct && (
+        <UpdateProjectTranslationForm
+          isOpen={openModal}
+          onOpenChange={setOpenModal}
+          initialTranslation={modalProduct}
+          refetch={refetch}
+        />
+      )}
       <DataTable.Table />
     </DataTable>
   );

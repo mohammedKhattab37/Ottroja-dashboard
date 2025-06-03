@@ -11,6 +11,7 @@ export type Translation = {
   product_id: string;
   language_code: string;
   title: string;
+  sub_title?: string;
   description: string;
 };
 

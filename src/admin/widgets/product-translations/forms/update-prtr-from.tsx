@@ -13,6 +13,7 @@ import * as zod from "zod";
 import { productTranslationSchema } from "../../../../api/admin/product-translations/validators";
 import { sdk } from "../../../lib/sdk";
 import { Translation } from "../product-translations-widget";
+import { useEffect } from "react";
 
 export const UpdateProjectTranslationForm = ({
   initialTranslation,
@@ -29,17 +30,23 @@ export const UpdateProjectTranslationForm = ({
     defaultValues: {
       language_code: initialTranslation.language_code,
       title: initialTranslation.title,
+      sub_title: initialTranslation.sub_title,
       description: initialTranslation.description,
     },
   });
 
+  useEffect(() => {
+    form.reset({
+      language_code: initialTranslation.language_code,
+      title: initialTranslation.title,
+      sub_title: initialTranslation.sub_title,
+      description: initialTranslation.description,
+    });
+  }, [initialTranslation, form]);
+
   const languageOpts = [
-    { label: "English", value: "EN" },
     { label: "Arabic", value: "AR" },
     { label: "Russian", value: "RU" },
-    { label: "French", value: "FR" },
-    { label: "German", value: "DE" },
-    { label: "Spanish", value: "ES" },
   ];
 
   const handleSubmit = form.handleSubmit((translation) => {
@@ -113,6 +120,22 @@ export const UpdateProjectTranslationForm = ({
                             </Label>
                           </div>
                           <Input {...field} />
+                        </div>
+                      );
+                    }}
+                  />
+                  <Controller
+                    control={form.control}
+                    name="sub_title"
+                    render={({ field }) => {
+                      return (
+                        <div className="flex flex-col space-y-2">
+                          <div className="flex items-center gap-x-1">
+                            <Label size="small" weight="plus">
+                              Subtitle
+                            </Label>
+                          </div>
+                          <Input {...field} value={field.value || ""} />
                         </div>
                       );
                     }}

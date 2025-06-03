@@ -32,11 +32,6 @@
           "primary": false,
           "nullable": false,
           "enumItems": [
-            "EN",
-            "ES",
-            "FR",
-            "DE",
-            "IT",
             "AR",
             "RU"
           ],
@@ -44,6 +39,15 @@
         },
         "title": {
           "name": "title",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "text"
+        },
+        "sub_title": {
+          "name": "sub_title",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,
@@ -57,7 +61,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": true,
+          "nullable": false,
           "mappedType": "text"
         },
         "created_at": {
@@ -113,15 +117,6 @@
           "primary": false,
           "unique": false,
           "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"product_translation_lookup_idx\" ON \"product_translation\" (product_id, language_code) WHERE deleted_at IS NULL"
-        },
-        {
-          "keyName": "variant_translation_lookup_idx",
-          "columnNames": [],
-          "composite": false,
-          "constraint": false,
-          "primary": false,
-          "unique": false,
-          "expression": "CREATE UNIQUE INDEX IF NOT EXISTS \"variant_translation_lookup_idx\" ON \"product_translation\" (product_id, language_code) WHERE deleted_at IS NULL"
         },
         {
           "keyName": "product_translation_pkey",

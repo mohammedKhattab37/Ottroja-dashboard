@@ -4,14 +4,16 @@ import ProductTranslation from "./models/product-translation";
 export interface CreateProductTranslationDTO {
   product_id: string;
   language_code: string;
-  title?: string;
-  description?: string;
+  title: string;
+  sub_title?: string;
+  description: string;
 }
 
 export interface UpdateProductTranslationDTO {
   language_code: string;
-  title?: string;
-  description?: string;
+  title: string;
+  sub_title?: string;
+  description: string;
 }
 
 class ProductTranslationService extends MedusaService({

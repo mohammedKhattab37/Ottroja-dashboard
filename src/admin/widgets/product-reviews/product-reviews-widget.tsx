@@ -1,6 +1,6 @@
 import { defineWidgetConfig } from "@medusajs/admin-sdk";
 import { Container, Heading } from "@medusajs/ui";
-import CustomDataTable from "./table/data-table";
+import ReviewDataTable from "./table/data-table";
 import { DetailWidgetProps, AdminProduct } from "@medusajs/framework/types";
 import { sdk } from "../../lib/sdk";
 import { useQuery } from "@tanstack/react-query";
@@ -62,7 +62,7 @@ export const ProductReviewsWidget = ({
                     </div>
                 )}
             </div>
-            <CustomDataTable
+            <ReviewDataTable
                 data={reviews}
                 refetch={refetch}
                 isLoading={isLoading}

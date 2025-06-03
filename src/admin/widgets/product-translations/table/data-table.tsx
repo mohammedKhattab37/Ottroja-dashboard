@@ -1,5 +1,4 @@
-import { defineRouteConfig } from "@medusajs/admin-sdk";
-import { ChatBubbleLeftRight, Pencil, Trash } from "@medusajs/icons";
+import { Pencil, Trash } from "@medusajs/icons";
 import {
   createDataTableColumnHelper,
   DataTable,

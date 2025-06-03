@@ -25,6 +25,7 @@ export const CreateCategoryTranslationForm = ({
   const [isOpen, setIsOpen] = useState(false);
   const form = useForm<zod.infer<typeof categoryTranslationSchema>>({
     defaultValues: {
+      category_id: categoryId,
       language_code: "",
       name: "",
       description: "",
@@ -40,10 +41,7 @@ export const CreateCategoryTranslationForm = ({
     sdk.client
       .fetch("/admin/category-translations", {
         method: "POST",
-        body: {
-          category_id: categoryId,
-          ...translation,
-        },
+        body: translation,
       })
       .then(() => {
         toast.success("Translation created");

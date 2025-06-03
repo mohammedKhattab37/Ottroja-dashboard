@@ -28,6 +28,7 @@ export const UpdateProjectTranslationForm = ({
 }) => {
   const form = useForm<zod.infer<typeof productTranslationSchema>>({
     defaultValues: {
+      product_id: initialTranslation.product_id,
       language_code: initialTranslation.language_code,
       title: initialTranslation.title,
       sub_title: initialTranslation.sub_title,
@@ -37,6 +38,7 @@ export const UpdateProjectTranslationForm = ({
 
   useEffect(() => {
     form.reset({
+      product_id: initialTranslation.product_id,
       language_code: initialTranslation.language_code,
       title: initialTranslation.title,
       sub_title: initialTranslation.sub_title,

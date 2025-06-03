@@ -5,14 +5,14 @@ export interface CreateProductTranslationDTO {
   product_id: string;
   language_code: string;
   title: string;
-  sub_title?: string;
+  sub_title: string | null;
   description: string;
 }
 
 export interface UpdateProductTranslationDTO {
   language_code: string;
   title: string;
-  sub_title?: string;
+  sub_title: string | null;
   description: string;
 }
 
@@ -42,14 +42,6 @@ class ProductTranslationService extends MedusaService({
     const [translation] = await this.listProductTranslations({
       product_id,
       language_code,
-    });
-    return translation;
-  }
-
-  async getTranslation(product_id: string, translation_id: string) {
-    const [translation] = await this.listProductTranslations({
-      id: translation_id,
-      product_id,
     });
     return translation;
   }

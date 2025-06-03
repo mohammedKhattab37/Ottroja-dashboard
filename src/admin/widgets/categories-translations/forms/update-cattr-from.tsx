@@ -28,6 +28,7 @@ export const UpdateCategoryTranslationForm = ({
 }) => {
   const form = useForm<zod.infer<typeof categoryTranslationSchema>>({
     defaultValues: {
+      category_id: initialTranslation.category_id,
       language_code: initialTranslation.language_code,
       name: initialTranslation.name,
       description: initialTranslation.description,
@@ -36,6 +37,7 @@ export const UpdateCategoryTranslationForm = ({
 
   useEffect(() => {
     form.reset({
+      category_id: initialTranslation.category_id,
       language_code: initialTranslation.language_code,
       name: initialTranslation.name,
       description: initialTranslation.description,

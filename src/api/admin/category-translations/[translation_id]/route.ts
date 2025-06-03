@@ -3,6 +3,7 @@ import { CATEGORY_TRANSLATION_MODULE } from "../../../../modules/category-transl
 import CategoryTranslationService, {
   UpdateCategoryTranslationDTO,
 } from "../../../../modules/category-translations/service";
+import { categoryTranslationSchema } from "../validators";
 
 export async function DELETE(req: MedusaRequest, res: MedusaResponse) {
   const { translation_id } = req.params;
@@ -19,15 +20,13 @@ export async function DELETE(req: MedusaRequest, res: MedusaResponse) {
 
 export async function POST(req: MedusaRequest, res: MedusaResponse) {
   const { translation_id } = req.params;
-  const { translation } = req.body as {
-    translation: UpdateCategoryTranslationDTO;
-  };
+  const validatedTranslation = categoryTranslationSchema.parse(req.body);
 
   const categoryTranslationService =
     req.scope.resolve<CategoryTranslationService>(CATEGORY_TRANSLATION_MODULE);
   const result = await categoryTranslationService.updateCategoryTranslation(
     translation_id,
-    translation
+    validatedTranslation
   );
 
   res.status(200).json({ translation: result });

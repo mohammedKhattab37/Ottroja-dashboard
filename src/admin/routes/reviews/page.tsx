@@ -51,6 +51,17 @@ const columns = [
     }),
     columnHelper.accessor("rating", {
         header: "Rating",
+        cell: ({ row }) => {
+            const rating = row.original.rating;
+            return (
+                <div className="flex items-center gap-1">
+                    <span>{rating}</span>
+                    <span className="text-yellow-500">
+                        {"★".repeat(rating)}
+                    </span>
+                </div>
+            );
+        },
         enableSorting: true,
         sortLabel: "Rating",
         sortAscLabel: "Low to High",

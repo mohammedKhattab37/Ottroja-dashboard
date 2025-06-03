@@ -101,9 +101,4 @@ const ProductTranslationDataTable = ({
   );
 };
 
-export const config = defineRouteConfig({
-  label: "Custom",
-  icon: ChatBubbleLeftRight,
-});
-
 export default ProductTranslationDataTable;

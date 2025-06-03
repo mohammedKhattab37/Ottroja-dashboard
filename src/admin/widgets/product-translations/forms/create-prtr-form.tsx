@@ -25,6 +25,7 @@ export const CreateProjectTranslationForm = ({
   const [isOpen, setIsOpen] = useState(false);
   const form = useForm<zod.infer<typeof productTranslationSchema>>({
     defaultValues: {
+      product_id: productId,
       language_code: "",
       title: "",
       sub_title: "",
@@ -41,9 +42,7 @@ export const CreateProjectTranslationForm = ({
     sdk.client
       .fetch("/admin/product-translations", {
         method: "POST",
-        body: {
-          translation: { product_id: productId, ...translation },
-        },
+        body: translation,
       })
       .then(() => {
         toast.success("Translation created");
@@ -81,24 +80,31 @@ export const CreateProjectTranslationForm = ({
                     name="language_code"
                     render={({ field }) => {
                       return (
-                        <Select
-                          value={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <Select.Trigger>
-                            <Select.Value placeholder="Select a language" />
-                          </Select.Trigger>
-                          <Select.Content>
-                            {languageOpts.map((option) => (
-                              <Select.Item
-                                key={option.value}
-                                value={option.value}
-                              >
-                                {option.label}
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select>
+                        <div className="flex flex-col space-y-2">
+                          <div className="flex items-center gap-x-1">
+                            <Label size="small" weight="plus">
+                              Language
+                            </Label>
+                          </div>
+                          <Select
+                            value={field.value}
+                            onValueChange={field.onChange}
+                          >
+                            <Select.Trigger>
+                              <Select.Value placeholder="Select a language" />
+                            </Select.Trigger>
+                            <Select.Content>
+                              {languageOpts.map((option) => (
+                                <Select.Item
+                                  key={option.value}
+                                  value={option.value}
+                                >
+                                  {option.label}
+                                </Select.Item>
+                              ))}
+                            </Select.Content>
+                          </Select>
+                        </div>
                       );
                     }}
                   />

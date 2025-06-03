@@ -3,16 +3,16 @@ import { CATEGORY_TRANSLATION_MODULE } from "../../../modules/category-translati
 import CategoryTranslationService, {
   CreateCategoryTranslationDTO,
 } from "../../../modules/category-translations/service";
+import { categoryTranslationSchema } from "./validators";
 
 export async function POST(req: MedusaRequest, res: MedusaResponse) {
-  const { translation } = req.body as {
-    translation: CreateCategoryTranslationDTO;
-  };
+  const validatedTranslation = categoryTranslationSchema.parse(req.body);
+
   const categoryTranslationService =
     req.scope.resolve<CategoryTranslationService>(CATEGORY_TRANSLATION_MODULE);
 
   const result = await categoryTranslationService.createCategoryTranslation({
-    ...translation,
+    ...validatedTranslation,
   });
 
   res.status(200).json({ translation: result });

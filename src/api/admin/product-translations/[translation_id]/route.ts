@@ -3,6 +3,7 @@ import { PRODUCT_TRANSLATION_MODULE } from "../../../../modules/product-translat
 import ProductTranslationService, {
   UpdateProductTranslationDTO,
 } from "../../../../modules/product-translations/service";
+import { productTranslationSchema } from "../validators";
 
 export async function DELETE(req: MedusaRequest, res: MedusaResponse) {
   const { translation_id } = req.params;
@@ -19,15 +20,13 @@ export async function DELETE(req: MedusaRequest, res: MedusaResponse) {
 
 export async function POST(req: MedusaRequest, res: MedusaResponse) {
   const { translation_id } = req.params;
-  const { translation } = req.body as {
-    translation: UpdateProductTranslationDTO;
-  };
+  const validatedTranslation = productTranslationSchema.parse(req.body);
 
   const productTranslationService =
     req.scope.resolve<ProductTranslationService>(PRODUCT_TRANSLATION_MODULE);
   const result = await productTranslationService.updateProductTranslation(
     translation_id,
-    translation
+    validatedTranslation
   );
 
   res.status(200).json({ translation: result });

@@ -1,6 +1,9 @@
-import { defineRouteConfig } from "@medusajs/admin-sdk";
-import { ChatBubbleLeftRight } from "@medusajs/icons";
 import {
+    createDataTableColumnHelper,
+    DataTable,
+    useDataTable,
+    StatusBadge,
+    DataTablePaginationState,
     createDataTableCommandHelper,
     DataTableRowSelectionState,
     DataTableSortingState,
@@ -8,105 +11,31 @@ import {
     createDataTableFilterHelper,
     DataTableFilteringState,
 } from "@medusajs/ui";
-import {
-    createDataTableColumnHelper,
-    Container,
-    DataTable,
-    useDataTable,
-    Heading,
-    StatusBadge,
-    Toaster,
-    DataTablePaginationState,
-} from "@medusajs/ui";
-import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import { sdk } from "../../lib/sdk";
-import { HttpTypes } from "@medusajs/framework/types";
-import { Link } from "react-router-dom";
+import { sdk } from "../../../lib/sdk";
 
 type Review = {
     id: string;
     title?: string;
     content: string;
     rating: number;
+    first_name: string;
+    last_name: string;
     product_id: string;
     customer_id?: string;
     status: "pending" | "approved" | "rejected";
     created_at: Date;
     updated_at: Date;
-    product?: HttpTypes.AdminProduct;
-    customer?: HttpTypes.AdminCustomer;
 };
+
+interface ReviewDataTableProps {
+    data: Review[] | undefined;
+    isLoading: boolean;
+    refetch: () => void;
+}
 
 const columnHelper = createDataTableColumnHelper<Review>();
 const filterHelper = createDataTableFilterHelper<Review>();
-
-const columns = [
-    columnHelper.select(),
-    columnHelper.accessor("id", {
-        header: "ID",
-    }),
-    columnHelper.accessor("title", {
-        header: "Title",
-    }),
-    columnHelper.accessor("rating", {
-        header: "Rating",
-        cell: ({ row }) => {
-            const rating = row.original.rating;
-            return (
-                <div className="flex items-center gap-1">
-                    <span>{rating}</span>
-                    <span className="text-yellow-500">
-                        {"★".repeat(rating)}
-                    </span>
-                </div>
-            );
-        },
-        enableSorting: true,
-        sortLabel: "Rating",
-        sortAscLabel: "Low to High",
-        sortDescLabel: "High to Low",
-    }),
-    columnHelper.accessor("content", {
-        header: "Content",
-    }),
-    columnHelper.accessor("status", {
-        header: "Status",
-        enableSorting: true,
-        sortLabel: "Status",
-        sortAscLabel: "A-Z",
-        sortDescLabel: "Z-A",
-        cell: ({ row }) => {
-            const color =
-                row.original.status === "approved"
-                    ? "green"
-                    : row.original.status === "rejected"
-                    ? "red"
-                    : "grey";
-            return (
-                <StatusBadge color={color}>
-                    {row.original.status.charAt(0).toUpperCase() +
-                        row.original.status.slice(1)}
-                </StatusBadge>
-            );
-        },
-    }),
-    columnHelper.accessor("product", {
-        header: "Product",
-        enableSorting: true,
-        sortLabel: "Product",
-        sortAscLabel: "A-Z",
-        sortDescLabel: "Z-A",
-        id: "product_id",
-        cell: ({ row }) => {
-            return (
-                <Link to={`/products/${row.original.product_id}`}>
-                    {row.original.product?.title}
-                </Link>
-            );
-        },
-    }),
-];
 const commandHelper = createDataTableCommandHelper();
 
 const useCommands = (refetch: () => void) => {
@@ -181,48 +110,99 @@ const filters = [
     }),
 ];
 
-const limit = 15;
+const columns = [
+    columnHelper.select(),
+    columnHelper.accessor("title", {
+        header: "Title",
+        cell: ({ row }) => row.original.title || "No title",
+    }),
+    columnHelper.accessor("content", {
+        header: "Content",
+        cell: ({ row }) => {
+            const content = row.original.content;
+            return content.length > 100
+                ? `${content.substring(0, 100)}...`
+                : content;
+        },
+    }),
+    columnHelper.accessor("rating", {
+        header: "Rating",
+        enableSorting: true,
+        sortLabel: "Rating",
+        sortAscLabel: "Low to High",
+        sortDescLabel: "High to Low",
+        cell: ({ row }) => {
+            const rating = row.original.rating;
+            return (
+                <div className="flex items-center gap-1">
+                    <span>{rating}</span>
+                    <span className="text-yellow-500">
+                        {"★".repeat(rating)}
+                    </span>
+                </div>
+            );
+        },
+    }),
+    columnHelper.accessor("status", {
+        header: "Status",
+        enableSorting: true,
+        sortLabel: "Status",
+        sortAscLabel: "A-Z",
+        sortDescLabel: "Z-A",
+        cell: ({ row }) => {
+            const color =
+                row.original.status === "approved"
+                    ? "green"
+                    : row.original.status === "rejected"
+                    ? "red"
+                    : "grey";
+            return (
+                <StatusBadge color={color}>
+                    {row.original.status.charAt(0).toUpperCase() +
+                        row.original.status.slice(1)}
+                </StatusBadge>
+            );
+        },
+    }),
+    columnHelper.display({
+        id: "customer",
+        header: "Customer",
+        cell: ({ row }) => {
+            const firstName = row.original.first_name;
+            const lastName = row.original.last_name;
+            return `${firstName} ${lastName}`.trim() || "Guest";
+        },
+    }),
+    columnHelper.accessor("created_at", {
+        header: "Created At",
+        enableSorting: true,
+        sortLabel: "Created At",
+        sortAscLabel: "Oldest First",
+        sortDescLabel: "Newest First",
+        cell: ({ row }) => {
+            return new Date(row.original.created_at).toLocaleDateString();
+        },
+    }),
+];
 
-const ReviewsPage = () => {
+function ReviewDataTable({ data, isLoading, refetch }: ReviewDataTableProps) {
     const [sorting, setSorting] = useState<DataTableSortingState | null>(null);
     const [filtering, setFiltering] = useState<DataTableFilteringState>({});
-
     const [rowSelection, setRowSelection] =
         useState<DataTableRowSelectionState>({});
     const [pagination, setPagination] = useState<DataTablePaginationState>({
-        pageSize: limit,
+        pageSize: 10,
         pageIndex: 0,
     });
 
-    const offset = useMemo(() => {
-        return pagination.pageIndex * limit;
-    }, [pagination]);
-
-    const { data, isLoading, refetch } = useQuery<{
-        reviews: Review[];
-        count: number;
-        limit: number;
-        offset: number;
-    }>({
-        queryKey: ["reviews", offset, limit],
-        queryFn: () =>
-            sdk.client.fetch("/admin/reviews", {
-                query: {
-                    offset: pagination.pageIndex * pagination.pageSize,
-                    limit: pagination.pageSize,
-                    order: "-created_at", // Default server-side sorting
-                },
-            }),
-        staleTime: 30000, // Cache for 30 seconds to reduce flashing
-        refetchOnWindowFocus: false, // Prevent unnecessary re-fetches
-    });
+    const reviews = useMemo(() => data || [], [data]);
 
     // Client-side filtering and sorting
     const filteredAndSortedReviews = useMemo(() => {
-        if (!data?.reviews) return [];
+        if (!reviews.length) return [];
 
         // First, filter the reviews
-        let filtered = data.reviews.filter((review) => {
+        let filtered = reviews.filter((review) => {
             return Object.entries(filtering).every(([key, value]) => {
                 if (!value || (Array.isArray(value) && value.length === 0)) {
                     return true;
@@ -244,10 +224,6 @@ const ReviewsPage = () => {
 
                 // Handle different sort fields
                 switch (sorting.id) {
-                    case "product_id":
-                        aVal = a.product_id;
-                        bVal = b.product_id;
-                        break;
                     case "status":
                         aVal = a.status;
                         bVal = b.status;
@@ -280,24 +256,7 @@ const ReviewsPage = () => {
         }
 
         return filtered;
-    }, [data?.reviews, filtering, sorting]);
-
-    // Reset pagination when filtering changes the number of results
-    const filteredCount = filteredAndSortedReviews.length;
-    const maxPage = Math.max(
-        0,
-        Math.ceil(filteredCount / pagination.pageSize) - 1
-    );
-
-    // Auto-reset pagination if current page is beyond available pages
-    useMemo(() => {
-        if (pagination.pageIndex > maxPage) {
-            setPagination((prev) => ({
-                ...prev,
-                pageIndex: 0,
-            }));
-        }
-    }, [filteredCount, maxPage, pagination.pageIndex]);
+    }, [reviews, filtering, sorting]);
 
     const commands = useCommands(refetch);
 
@@ -327,12 +286,23 @@ const ReviewsPage = () => {
         },
     });
 
+    if (isLoading) {
+        return <div className="p-4 text-center">Loading reviews...</div>;
+    }
+
+    if (!reviews.length) {
+        return (
+            <div className="p-4 text-center text-gray-500">
+                No reviews found for this product.
+            </div>
+        );
+    }
+
     return (
-        <Container>
+        <div>
             <DataTable instance={table}>
                 <DataTable.Toolbar className="flex flex-col items-start justify-between gap-2 md:flex-row md:items-center">
-                    <Heading>Reviews</Heading>
-                    <div className="flex gap-2">
+                    <div className="ml-auto flex gap-2">
                         <DataTable.FilterMenu tooltip="Filter" />
                         <DataTable.SortingMenu tooltip="Sort" />
                     </div>
@@ -343,14 +313,8 @@ const ReviewsPage = () => {
                     selectedLabel={(count) => `${count} selected`}
                 />
             </DataTable>
-            <Toaster />
-        </Container>
+        </div>
     );
-};
+}
 
-export const config = defineRouteConfig({
-    label: "Reviews",
-    icon: ChatBubbleLeftRight,
-});
-
-export default ReviewsPage;
+export default ReviewDataTable;

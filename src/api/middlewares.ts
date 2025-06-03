@@ -7,12 +7,13 @@ import {
 import { GetAdminReviewsSchema } from "./admin/reviews/route";
 import { PostStoreReviewSchema } from "./store/reviews/route";
 import { PostAdminUpdateReviewsStatusSchema } from "./admin/reviews/status/route";
+import { GetStoreReviewsSchema } from "./store/products/[id]/reviews/route";
 
 export default defineMiddlewares({
     routes: [
         {
-            method: ["POST"],
             matcher: "/store/reviews",
+            method: ["POST"],
             middlewares: [
                 authenticate("customer", ["session", "bearer"]),
                 validateAndTransformBody(PostStoreReviewSchema),
@@ -44,6 +45,24 @@ export default defineMiddlewares({
             method: ["POST"],
             middlewares: [
                 validateAndTransformBody(PostAdminUpdateReviewsStatusSchema),
+            ],
+        },
+        {
+            matcher: "/store/products/:id/reviews",
+            methods: ["GET"],
+            middlewares: [
+                validateAndTransformQuery(GetStoreReviewsSchema, {
+                    isList: true,
+                    defaults: [
+                        "id",
+                        "rating",
+                        "title",
+                        "first_name",
+                        "last_name",
+                        "content",
+                        "created_at",
+                    ],
+                }),
             ],
         },
     ],

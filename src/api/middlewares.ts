@@ -10,6 +10,7 @@ import { PostAdminUpdateReviewsStatusSchema } from "./admin/reviews/status/route
 import { GetStoreReviewsSchema } from "./store/products/[id]/reviews/route";
 import { PostBundledProductsSchema } from "./admin/bundled-products/route";
 import { createFindParams } from "@medusajs/medusa/api/utils/validators";
+import { PostCartsBundledLineItemsSchema } from "./store/carts/[id]/line-item-bundles/route";
 
 export default defineMiddlewares({
     routes: [
@@ -87,6 +88,13 @@ export default defineMiddlewares({
                     isList: true,
                     defaultLimit: 15,
                 }),
+            ],
+        },
+        {
+            matcher: "/store/carts/:id/line-item-bundles",
+            methods: ["POST"],
+            middlewares: [
+                validateAndTransformBody(PostCartsBundledLineItemsSchema),
             ],
         },
     ],

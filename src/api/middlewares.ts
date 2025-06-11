@@ -8,6 +8,8 @@ import { GetAdminReviewsSchema } from "./admin/reviews/route";
 import { PostStoreReviewSchema } from "./store/reviews/route";
 import { PostAdminUpdateReviewsStatusSchema } from "./admin/reviews/status/route";
 import { GetStoreReviewsSchema } from "./store/products/[id]/reviews/route";
+import { PostBundledProductsSchema } from "./admin/bundled-products/route";
+import { createFindParams } from "@medusajs/medusa/api/utils/validators";
 
 export default defineMiddlewares({
     routes: [
@@ -62,6 +64,28 @@ export default defineMiddlewares({
                         "content",
                         "created_at",
                     ],
+                }),
+            ],
+        },
+        {
+            matcher: "/admin/bundled-products",
+            methods: ["POST"],
+            middlewares: [validateAndTransformBody(PostBundledProductsSchema)],
+        },
+        {
+            matcher: "/admin/bundled-products",
+            methods: ["GET"],
+            middlewares: [
+                validateAndTransformQuery(createFindParams(), {
+                    defaults: [
+                        "id",
+                        "title",
+                        "product.*",
+                        "items.*",
+                        "items.product.*",
+                    ],
+                    isList: true,
+                    defaultLimit: 15,
                 }),
             ],
         },

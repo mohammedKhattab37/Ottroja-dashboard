@@ -13,6 +13,9 @@ import { useMemo, useState } from "react";
 import { sdk } from "../../lib/sdk";
 import { Link } from "react-router-dom";
 import { CreateBundledProduct } from "../../components/create-bundled-product";
+import { EditBundledProduct } from "../../components/edit-bundled-product";
+import { DeleteBundledProduct } from "../../components/delete-bundled-product";
+import { ViewBundledProduct } from "../../components/view-bundled-product";
 
 type BundledProduct = {
     id: string;
@@ -61,6 +64,29 @@ const columns = [
                 <Link to={`/products/${row.original.product?.id}`}>
                     View Product
                 </Link>
+            );
+        },
+    }),
+    columnHelper.display({
+        id: "actions",
+        header: "Actions",
+        cell: ({ row }) => {
+            return (
+                <div className="flex items-center gap-2">
+                    <ViewBundledProduct bundledProductId={row.original.id} />
+                    <EditBundledProduct
+                        bundledProduct={{
+                            id: row.original.id,
+                            title: row.original.title,
+                        }}
+                    />
+                    <DeleteBundledProduct
+                        bundledProduct={{
+                            id: row.original.id,
+                            title: row.original.title,
+                        }}
+                    />
+                </div>
             );
         },
     }),

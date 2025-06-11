@@ -11,6 +11,7 @@ import { GetStoreReviewsSchema } from "./store/products/[id]/reviews/route";
 import { PostBundledProductsSchema } from "./admin/bundled-products/route";
 import { createFindParams } from "@medusajs/medusa/api/utils/validators";
 import { PostCartsBundledLineItemsSchema } from "./store/carts/[id]/line-item-bundles/route";
+import { PutBundledProductSchema } from "./admin/bundled-products/[id]/route";
 
 export default defineMiddlewares({
     routes: [
@@ -96,6 +97,26 @@ export default defineMiddlewares({
             middlewares: [
                 validateAndTransformBody(PostCartsBundledLineItemsSchema),
             ],
+        },
+        {
+            matcher: "/admin/bundled-products/:id",
+            methods: ["GET"],
+            middlewares: [
+                validateAndTransformQuery(createFindParams(), {
+                    defaults: [
+                        "id",
+                        "title",
+                        "product.*",
+                        "items.*",
+                        "items.product.*",
+                    ],
+                }),
+            ],
+        },
+        {
+            matcher: "/admin/bundled-products/:id",
+            methods: ["PUT"],
+            middlewares: [validateAndTransformBody(PutBundledProductSchema)],
         },
     ],
 });

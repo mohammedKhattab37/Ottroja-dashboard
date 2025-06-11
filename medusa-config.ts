@@ -45,6 +45,9 @@ module.exports = defineConfig({
         {
             resolve: "./src/modules/product-review",
         },
+        {
+            resolve: "./src/modules/bundled-product",
+        },
         { resolve: "./src/modules/product-translations" },
         { resolve: "./src/modules/category-translations" },
     ],

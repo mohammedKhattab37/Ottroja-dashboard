@@ -6,7 +6,9 @@ import {
     Label,
     Select,
     toast,
+    IconButton,
 } from "@medusajs/ui";
+import { XMarkMini } from "@medusajs/icons";
 import { useState, useRef, useCallback, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { sdk } from "../lib/sdk";
@@ -28,31 +30,50 @@ export const CreateBundledProduct = () => {
     ]);
     const [products, setProducts] = useState<HttpTypes.AdminProduct[]>([]);
     const productsLimit = 15;
-    const [currnetProductPage, setCurrentProductPage] = useState(0);
+    const [currentProductPage, setCurrentProductPage] = useState(0);
     const [productsCount, setProductsCount] = useState(0);
-    const hasNextPage = useMemo(() => {
-        return productsCount ? productsCount > productsLimit : true;
-    }, [productsCount, productsLimit]);
+    const [isFetchingMore, setIsFetchingMore] = useState(false);
+
+    const hasMoreProducts = useMemo(() => {
+        return products.length < productsCount;
+    }, [products.length, productsCount]);
+
     const queryClient = useQueryClient();
-    useQuery({
-        queryKey: ["products"],
+
+    // Initial product fetch
+    const { isLoading: isLoadingProducts } = useQuery({
+        queryKey: ["products", currentProductPage],
         queryFn: async () => {
-            const { products, count } = await sdk.admin.product.list({
-                limit: productsLimit,
-                offset: currnetProductPage * productsLimit,
-            });
-            setProductsCount(count);
-            setProducts((prev) => [...prev, ...products]);
-            return products;
+            setIsFetchingMore(true);
+            try {
+                const { products: newProducts, count } =
+                    await sdk.admin.product.list({
+                        limit: productsLimit,
+                        offset: currentProductPage * productsLimit,
+                    });
+
+                setProductsCount(count);
+
+                if (currentProductPage === 0) {
+                    // First load - replace products
+                    setProducts(newProducts);
+                } else {
+                    // Subsequent loads - append products
+                    setProducts((prev) => [...prev, ...newProducts]);
+                }
+
+                return newProducts;
+            } finally {
+                setIsFetchingMore(false);
+            }
         },
-        enabled: hasNextPage,
     });
 
     const fetchMoreProducts = () => {
-        if (!hasNextPage) {
+        if (!hasMoreProducts || isFetchingMore) {
             return;
         }
-        setCurrentProductPage(currnetProductPage + 1);
+        setCurrentProductPage(currentProductPage + 1);
     };
 
     const { mutateAsync: createBundledProduct, isPending: isCreating } =
@@ -86,7 +107,7 @@ export const CreateBundledProduct = () => {
                             options: {
                                 Default: "default",
                             },
-                            manage_inventory: false,
+                            manage_inventory: true,
                         },
                     ],
                 },
@@ -137,7 +158,9 @@ export const CreateBundledProduct = () => {
                                         setItems={setItems}
                                         products={products}
                                         fetchMoreProducts={fetchMoreProducts}
-                                        hasNextPage={hasNextPage}
+                                        hasMoreProducts={hasMoreProducts}
+                                        isFetchingMore={isFetchingMore}
+                                        canRemove={items.length > 1}
                                     />
                                 ))}
                                 <Button
@@ -196,7 +219,9 @@ type BundledProductItemProps = {
     >;
     products: HttpTypes.AdminProduct[] | undefined;
     fetchMoreProducts: () => void;
-    hasNextPage: boolean;
+    hasMoreProducts: boolean;
+    isFetchingMore: boolean;
+    canRemove: boolean;
 };
 
 const BundledProductItem = ({
@@ -205,12 +230,14 @@ const BundledProductItem = ({
     setItems,
     products,
     fetchMoreProducts,
-    hasNextPage,
+    hasMoreProducts,
+    isFetchingMore,
+    canRemove,
 }: BundledProductItemProps) => {
     const observer = useRef(
         new IntersectionObserver(
             (entries) => {
-                if (!hasNextPage) {
+                if (!hasMoreProducts) {
                     return;
                 }
                 const first = entries[0];
@@ -224,7 +251,7 @@ const BundledProductItem = ({
 
     const lastOptionRef = useCallback(
         (node: HTMLDivElement) => {
-            if (!hasNextPage) {
+            if (!hasMoreProducts) {
                 return;
             }
             if (observer.current) {
@@ -234,14 +261,29 @@ const BundledProductItem = ({
                 observer.current.observe(node);
             }
         },
-        [hasNextPage]
+        [hasMoreProducts]
     );
 
     return (
-        <div className="my-2">
-            <Heading level={"h3"} className="mb-2">
-                Item {index + 1}
-            </Heading>
+        <div className="my-2 border rounded-lg p-4">
+            <div className="flex items-center justify-between mb-2">
+                <Heading level={"h3"}>Item {index + 1}</Heading>
+                {canRemove && (
+                    <IconButton
+                        variant="transparent"
+                        size="small"
+                        onClick={() =>
+                            setItems((items) =>
+                                items.filter((_, i) => i !== index)
+                            )
+                        }
+                        disabled={!canRemove}
+                        title="Remove item"
+                    >
+                        <XMarkMini className="h-4 w-4" />
+                    </IconButton>
+                )}
+            </div>
             <Select
                 value={item.product_id}
                 onValueChange={(value) =>
@@ -266,7 +308,8 @@ const BundledProductItem = ({
                             key={product.id}
                             value={product.id}
                             ref={
-                                productIndex === products.length - 1
+                                productIndex === products.length - 1 &&
+                                hasMoreProducts
                                     ? lastOptionRef
                                     : null
                             }
@@ -274,9 +317,14 @@ const BundledProductItem = ({
                             {product.title}
                         </Select.Item>
                     ))}
+                    {isFetchingMore && (
+                        <div className="px-2 py-1 text-center text-sm text-gray-500">
+                            Loading more products...
+                        </div>
+                    )}
                 </Select.Content>
             </Select>
-            <div className="flex items-center gap-x-2 [&_div]:flex-1">
+            <div className="flex items-center gap-x-2 [&_div]:flex-1 mt-2">
                 <Label>Quantity</Label>
                 <Input
                     type="number"

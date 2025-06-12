@@ -18,6 +18,7 @@ export async function GET(req: MedusaRequest, res: MedusaResponse) {
                 "items.product.variants.*",
                 "items.product.variants.calculated_price.*",
                 "items.product.variants.options.*",
+                "items.product.variants.inventory_items.*",
             ],
             filters: {
                 id,

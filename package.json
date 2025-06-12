@@ -39,6 +39,7 @@
     "@tiptap/extension-text-align": "^2.14.0",
     "@tiptap/pm": "^2.14.0",
     "@tiptap/react": "^2.14.0",
+    "@tiptap/starter-kit": "^2.14.0",
     "awilix": "^8.0.1",
     "pg": "^8.13.0"
   },

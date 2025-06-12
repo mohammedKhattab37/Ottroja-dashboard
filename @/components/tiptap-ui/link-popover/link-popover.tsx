@@ -3,7 +3,7 @@
 import * as React from "react";
 
 // --- Styles ---
-import "@/components/tiptap-ui/link-popover/link-popover.scss";
+import "./link-popover.scss";
 import { Editor, isNodeSelection } from "@tiptap/react";
 import { useTiptapEditor } from "../../../hooks/use-tiptap-editor";
 import { isMarkInSchema } from "../../../lib/tiptap-utils";

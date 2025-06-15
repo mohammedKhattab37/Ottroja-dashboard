@@ -5,8 +5,8 @@ import * as React from "react";
 // --- Styles ---
 import "./link-popover.scss";
 import { Editor, isNodeSelection } from "@tiptap/react";
-import { useTiptapEditor } from "../../../hooks/use-tiptap-editor";
-import { isMarkInSchema } from "../../../lib/tiptap-utils";
+import { useTiptapEditor } from "../../../hooks/use-tiptap-editor.js";
+import { isMarkInSchema } from "../../../lib/tiptap-utils.js";
 import { CornerDownLeftIcon } from "../../tiptap-icons/corner-down-left-icon";
 import { ExternalLinkIcon } from "../../tiptap-icons/external-link-icon";
 import { LinkIcon } from "../../tiptap-icons/link-icon";
@@ -306,7 +306,7 @@ export function LinkPopover({
         />
       </PopoverTrigger>
 
-      <PopoverContent>
+      <PopoverContent portal={false}>
         <LinkMain {...linkHandler} />
       </PopoverContent>
     </Popover>

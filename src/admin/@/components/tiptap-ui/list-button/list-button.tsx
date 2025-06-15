@@ -1,11 +1,11 @@
 import { Editor, isNodeSelection } from "@tiptap/react";
 import * as React from "react";
-import { useTiptapEditor } from "../../../hooks/use-tiptap-editor";
-import { isNodeInSchema } from "../../../lib/tiptap-utils";
-import { ListIcon } from "../../tiptap-icons/list-icon";
-import { ListOrderedIcon } from "../../tiptap-icons/list-ordered-icon";
-import { ListTodoIcon } from "../../tiptap-icons/list-todo-icon";
-import { ButtonProps, Button } from "../../tiptap-ui-primitive/button";
+import { useTiptapEditor } from "../../../hooks/use-tiptap-editor.js";
+import { isNodeInSchema } from "../../../lib/tiptap-utils.js";
+import { ListIcon } from "../../tiptap-icons/list-icon.js";
+import { ListOrderedIcon } from "../../tiptap-icons/list-ordered-icon.js";
+import { ListTodoIcon } from "../../tiptap-icons/list-todo-icon.js";
+import { ButtonProps, Button } from "../../tiptap-ui-primitive/button/index.js";
 
 export type ListType = "bulletList" | "orderedList" | "taskList";
 

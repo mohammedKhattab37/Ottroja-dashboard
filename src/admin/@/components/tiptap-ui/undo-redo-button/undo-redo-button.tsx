@@ -1,9 +1,9 @@
 import { Editor } from "@tiptap/react";
 import * as React from "react";
-import { useTiptapEditor } from "../../../hooks/use-tiptap-editor";
-import { Redo2Icon } from "../../tiptap-icons/redo2-icon";
-import { Undo2Icon } from "../../tiptap-icons/undo2-icon";
-import { ButtonProps, Button } from "../../tiptap-ui-primitive/button";
+import { useTiptapEditor } from "../../../hooks/use-tiptap-editor.js";
+import { Redo2Icon } from "../../tiptap-icons/redo2-icon.js";
+import { Undo2Icon } from "../../tiptap-icons/undo2-icon.js";
+import { ButtonProps, Button } from "../../tiptap-ui-primitive/button/index.js";
 
 export type HistoryAction = "undo" | "redo";
 

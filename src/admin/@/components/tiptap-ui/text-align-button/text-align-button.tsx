@@ -1,11 +1,11 @@
 import { Editor, ChainedCommands } from "@tiptap/react";
 import * as React from "react";
-import { useTiptapEditor } from "../../../hooks/use-tiptap-editor";
-import { AlignCenterIcon } from "../../tiptap-icons/align-center-icon";
-import { AlignJustifyIcon } from "../../tiptap-icons/align-justify-icon";
-import { AlignLeftIcon } from "../../tiptap-icons/align-left-icon";
-import { AlignRightIcon } from "../../tiptap-icons/align-right-icon";
-import { ButtonProps, Button } from "../../tiptap-ui-primitive/button";
+import { useTiptapEditor } from "../../../hooks/use-tiptap-editor.js";
+import { AlignCenterIcon } from "../../tiptap-icons/align-center-icon.js";
+import { AlignJustifyIcon } from "../../tiptap-icons/align-justify-icon.js";
+import { AlignLeftIcon } from "../../tiptap-icons/align-left-icon.js";
+import { AlignRightIcon } from "../../tiptap-icons/align-right-icon.js";
+import { ButtonProps, Button } from "../../tiptap-ui-primitive/button/index.js";
 
 export type TextAlign = "left" | "center" | "right" | "justify";
 

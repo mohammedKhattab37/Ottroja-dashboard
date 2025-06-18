@@ -14,7 +14,7 @@
   h1,
   h2 {
     margin-top: 1rem;
-    margin-bottom: 11rem;
+    margin-bottom: 1rem;
   }
 
   h1 {
@@ -42,6 +42,12 @@
   ol {
     list-style: decimal;
   }
+
+  ol:has(li p[style*="text-align: right"]),
+  ul:has(li p[style*="text-align: right"]) {
+    direction: rtl;
+  }
+
   ul,
   ol {
     padding: 0 1rem;

@@ -9,18 +9,17 @@ export const CreateCMSItemStep = createStep(
   async (input: CreateCMSItemInput, { container }) => {
     const cmsModuleService: CMSItemModuleService =
       container.resolve(CMS_MODULE);
+    const item = await cmsModuleService.createCMSItems(input);
 
-    const review = await cmsModuleService.createCMSItems(input);
-
-    return new StepResponse(review, review.id);
+    return new StepResponse(item, item.id);
   },
 
-  async (reviewId, { container }) => {
-    if (!reviewId) return;
+  async (itemId, { container }) => {
+    if (!itemId) return;
 
     const cmsModuleService: CMSItemModuleService =
       container.resolve(CMS_MODULE);
 
-    await cmsModuleService.deleteCMSItems(reviewId);
+    await cmsModuleService.deleteCMSItems(itemId);
   }
 );

@@ -7,11 +7,14 @@ import { CreateCMSItemStep } from "./steps/create-cms-item-step";
 export type CreateCMSItemInput = {
   name: string;
   title: string | null;
-  content: string | null;
-  items: Array<{
-    title: string;
-    url?: string;
-  }> | null;
+  eng_content: string | null;
+  ar_content: string | null;
+  items: {
+    [key: string]: {
+      title: string;
+      url?: string;
+    };
+  };
 };
 
 export const createCMSItemWorkflow = createWorkflow(

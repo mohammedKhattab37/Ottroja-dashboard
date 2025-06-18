@@ -17,6 +17,8 @@ import { RichTextEditor } from "./richtext-editor";
 import OptionalFormTag from "./optional-form-tag";
 import { CMSFormItemsList } from "./cms-form-items-list";
 import { CMSItem } from "../routes/cms/[itemId]/page";
+import { AdminFile } from "@medusajs/framework/types";
+import ImageCMSModule from "./cms-images-handler";
 
 export const UpdateCMSItemForm = ({
   initialItemData,
@@ -36,6 +38,12 @@ export const UpdateCMSItemForm = ({
     initialItemData.ar_content
   );
   const [items, setItems] = useState(initialItemData.items);
+  const [images, setImages] = useState<AdminFile[] | undefined>(
+    initialItemData.images.map((imageStr) => {
+      const imageSplit = imageStr.split("||");
+      return { id: imageSplit[1], url: imageSplit[0] };
+    })
+  );
 
   const form = useForm<zod.infer<typeof cmsItemSchema>>({
     defaultValues: {
@@ -45,6 +53,7 @@ export const UpdateCMSItemForm = ({
   });
 
   const handleSubmit = form.handleSubmit((item) => {
+    console.log(images);
     sdk.client
       .fetch(`/admin/cms/${initialItemData.id}`, {
         method: "POST",
@@ -53,6 +62,7 @@ export const UpdateCMSItemForm = ({
           items: items,
           eng_content: engContent,
           ar_content: arContent,
+          images: images?.map((i) => i.url + "||" + i.id),
         },
       })
       .then(() => {
@@ -110,7 +120,7 @@ export const UpdateCMSItemForm = ({
                             </Label>
                             <OptionalFormTag />
                           </div>
-                          <Input {...field} />
+                          <Input {...field} value={field.value || ""} />
                         </div>
                       );
                     }}
@@ -175,6 +185,16 @@ export const UpdateCMSItemForm = ({
                         setItems={setItems}
                       />
                     ))}
+                  </div>
+
+                  <div className="flex flex-col space-y-4">
+                    <div className="flex gap-x-1">
+                      <Label size="small" weight="plus">
+                        Images
+                      </Label>
+                      <OptionalFormTag />
+                    </div>
+                    <ImageCMSModule images={images} setImages={setImages} />
                   </div>
                 </Container>
                 <Button type="submit">Update</Button>

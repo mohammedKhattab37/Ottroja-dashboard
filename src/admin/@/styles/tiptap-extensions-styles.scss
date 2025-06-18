@@ -1,5 +1,5 @@
-@import "./variables";
-@import "./keyframe-animations";
+@use "./variables";
+@use "./keyframe-animations";
 
 .tiptap {
   h1,
@@ -63,5 +63,6 @@
   a {
     color: var(--tt-color-text-blue);
     cursor: pointer;
+    text-decoration: underline;
   }
 }

@@ -6,6 +6,7 @@ import { CMS_MODULE } from "../../../../modules/cms";
 import { deleteCMSItemWorkflow } from "../../../../workflows/delete-cms-item";
 import { cmsItemSchema } from "../validators";
 import { updateCMSItemWorkflow } from "../../../../workflows/update-cms-item";
+import { deleteFilesWorkflow } from "@medusajs/medusa/core-flows";
 
 export async function GET(
   req: AuthenticatedMedusaRequest,
@@ -29,7 +30,12 @@ export const POST = async (
   const input = cmsItemSchema.parse(req.body);
 
   const { result } = await updateCMSItemWorkflow(req.scope).run({
-    input: { ...input, id: itemId },
+    input: {
+      ...input,
+      id: itemId,
+      items: input.items || {},
+      images: input.images || [],
+    },
   });
 
   res.json(result);
@@ -40,9 +46,15 @@ export async function DELETE(
   res: MedusaResponse
 ) {
   const { itemId } = req.params;
-  await deleteCMSItemWorkflow(req.scope).run({
+  const deletedItem = await deleteCMSItemWorkflow(req.scope).run({
     input: itemId,
   });
+
+  if (deletedItem && deletedItem.result.item.images) {
+    await deleteFilesWorkflow(req.scope).run({
+      input: { ids: deletedItem.result.item.images },
+    });
+  }
 
   res.json({ message: "CMS: deleted successfully" });
 }

@@ -25,7 +25,11 @@ export const POST = async (
   const input = cmsItemSchema.parse(req.body);
 
   const { result } = await createCMSItemWorkflow(req.scope).run({
-    input: input,
+    input: {
+      ...input,
+      items: input.items || {},
+      images: input.images || [],
+    },
   });
 
   res.json(result);

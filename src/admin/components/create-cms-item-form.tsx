@@ -16,6 +16,8 @@ import { RichTextEditor } from "./richtext-editor";
 import { Content } from "@tiptap/core";
 import OptionalFormTag from "./optional-form-tag";
 import { CMSFormItemsList } from "./cms-form-items-list";
+import ImageCMSModule from "./cms-images-handler";
+import { AdminFile } from "@medusajs/framework/types";
 
 export const CreateCMSItemForm = ({
   refetch,
@@ -25,6 +27,7 @@ export const CreateCMSItemForm = ({
   const [isOpen, setIsOpen] = useState(false);
   const [engContent, setEngContent] = useState<Content>("");
   const [arContent, setArContent] = useState<Content>("");
+  const [images, setImages] = useState<AdminFile[]>();
 
   const [items, setItems] = useState<{
     [key: string]: {
@@ -47,6 +50,7 @@ export const CreateCMSItemForm = ({
           items: items,
           eng_content: engContent,
           ar_content: arContent,
+          images: images?.map((i) => i.url + "||" + i.id),
         },
       })
       .then(() => {
@@ -174,6 +178,16 @@ export const CreateCMSItemForm = ({
                         setItems={setItems}
                       />
                     ))}
+                  </div>
+
+                  <div className="flex flex-col space-y-4">
+                    <div className="flex gap-x-1">
+                      <Label size="small" weight="plus">
+                        Images
+                      </Label>
+                      <OptionalFormTag />
+                    </div>
+                    <ImageCMSModule images={images} setImages={setImages} />
                   </div>
                 </Container>
                 <Button type="submit">Create</Button>

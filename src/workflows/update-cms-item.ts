@@ -16,6 +16,7 @@ export type UpdateCMSItemInput = {
       url?: string;
     };
   };
+  images: string[];
 };
 
 export const updateCMSItemWorkflow = createWorkflow(

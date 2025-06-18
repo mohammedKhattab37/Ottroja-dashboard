@@ -1,4 +1,4 @@
-import { Container, Heading, IconButton, Text } from "@medusajs/ui";
+import { Container, Divider, Heading, IconButton, Text } from "@medusajs/ui";
 import { ArrowUpRightOnBox } from "@medusajs/icons";
 import { useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -19,6 +19,7 @@ export type CMSItem = {
       url?: string;
     };
   };
+  images: string[];
   updated_at: Date;
 };
 
@@ -68,27 +69,44 @@ const CMSItemPage = () => {
         <Heading level="h1" className="py-4">
           English Content
         </Heading>
-        <div
-          className="p-4 tiptap bg-black/20"
-          dangerouslySetInnerHTML={{ __html: data?.cms_item.eng_content || "" }}
-        ></div>
+        {data?.cms_item.eng_content && (
+          <div
+            className="p-4 tiptap bg-black/20"
+            dangerouslySetInnerHTML={{ __html: data?.cms_item.eng_content }}
+          ></div>
+        )}
       </Container>
       <Container className="divide-y">
         <Heading level="h1" className="py-4">
           Arabic Content
         </Heading>
-        <div
-          className="p-4 tiptap bg-black/20"
-          dangerouslySetInnerHTML={{ __html: data?.cms_item.ar_content || "" }}
-        ></div>
+        {data?.cms_item.ar_content && (
+          <div
+            className="p-4 tiptap bg-black/20"
+            dangerouslySetInnerHTML={{ __html: data?.cms_item.ar_content }}
+          ></div>
+        )}
       </Container>
-      <Container className="divide-y">
+      <Container>
         <Heading level="h1" className="py-4">
           Images
         </Heading>
-        <div></div> //make it show images preview
+        {data?.cms_item.images && (
+          <>
+            <Divider />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+              {data?.cms_item.images.map((image) => (
+                <img
+                  src={image.split("||")[0]}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          </>
+        )}
       </Container>
-      <Container className="divide-y">
+      <Container>
         <Heading level="h1" className="py-4">
           Items
         </Heading>

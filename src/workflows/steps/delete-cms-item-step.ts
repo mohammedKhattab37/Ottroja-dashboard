@@ -12,7 +12,7 @@ export const DeleteCMSItemStep = createStep(
     const previousData = await cmsModuleService.retrieveCMSItem(itemId);
     await cmsModuleService.deleteCMSItems(itemId);
 
-    return new StepResponse(undefined, previousData);
+    return new StepResponse(previousData, previousData);
   },
 
   async (item, { container }) => {

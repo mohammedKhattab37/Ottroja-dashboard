@@ -1,5 +1,5 @@
 import { defineRouteConfig } from "@medusajs/admin-sdk";
-import { Pencil, PenPlus, Trash } from "@medusajs/icons";
+import { Pencil, PenPlus, Trash, ExclamationCircle } from "@medusajs/icons";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -124,9 +124,21 @@ const CMSPage = () => {
           }
         />
       )}
-      <DataTable instance={table}>
-        <DataTable.Table />
-      </DataTable>
+      {data?.cms_items && data.cms_items.length > 0 ? (
+        <DataTable instance={table}>
+          <DataTable.Table />
+        </DataTable>
+      ) : (
+        <div className="flex h-[150px] w-full flex-col items-center justify-center gap-y-4">
+          <ExclamationCircle className="text-ui-fg-subtle" />
+          <div className="text-center">
+            <p className="font-medium txt-compact-small">No records</p>
+            <p className="font-normal txt-small text-ui-fg-muted">
+              There are no records to show
+            </p>
+          </div>
+        </div>
+      )}
     </Container>
   );
 };

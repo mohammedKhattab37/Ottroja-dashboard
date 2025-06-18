@@ -51,8 +51,9 @@ export async function DELETE(
   });
 
   if (deletedItem && deletedItem.result.item.images) {
+    const imgsIds = deletedItem.result.item.images.map((i) => i.split("||")[1]);
     await deleteFilesWorkflow(req.scope).run({
-      input: { ids: deletedItem.result.item.images },
+      input: { ids: imgsIds },
     });
   }
 

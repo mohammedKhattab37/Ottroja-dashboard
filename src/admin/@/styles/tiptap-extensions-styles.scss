@@ -1,0 +1,68 @@
+@use "./variables";
+@use "./keyframe-animations";
+
+.tiptap {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+
+  /* List styles */
+  ul {
+    list-style: disc;
+  }
+  ol {
+    list-style: decimal;
+  }
+
+  ol:has(li p[style*="text-align: right"]),
+  ul:has(li p[style*="text-align: right"]) {
+    direction: rtl;
+  }
+
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  /* Link styles */
+  a {
+    color: var(--tt-color-text-blue);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}

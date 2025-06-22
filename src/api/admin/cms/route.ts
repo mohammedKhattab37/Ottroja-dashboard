@@ -23,6 +23,7 @@ export const POST = async (
   res: MedusaResponse
 ) => {
   const input = cmsItemSchema.parse(req.body);
+  console.log(input.position);
 
   const { result } = await createCMSItemWorkflow(req.scope).run({
     input: {

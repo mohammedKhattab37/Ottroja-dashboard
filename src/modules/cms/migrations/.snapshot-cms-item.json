@@ -34,6 +34,20 @@
           ],
           "mappedType": "enum"
         },
+        "language": {
+          "name": "language",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "enumItems": [
+            "AR",
+            "EN",
+            "RU"
+          ],
+          "mappedType": "enum"
+        },
         "name": {
           "name": "name",
           "type": "text",
@@ -74,17 +88,8 @@
           ],
           "mappedType": "enum"
         },
-        "eng_content": {
-          "name": "eng_content",
-          "type": "text",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "mappedType": "text"
-        },
-        "ar_content": {
-          "name": "ar_content",
+        "content": {
+          "name": "content",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,

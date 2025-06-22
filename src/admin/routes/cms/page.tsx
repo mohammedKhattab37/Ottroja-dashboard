@@ -17,6 +17,11 @@ import { ActionMenu } from "../../widgets/components/action-menu";
 import { useState } from "react";
 import { UpdateCMSItemForm } from "../../components/update-cms-item-form";
 import { CMSItem } from "./[itemId]/page";
+import {
+  cmsPositionsList,
+  languagesList,
+  regionsList,
+} from "../../lib/constants";
 
 const CMSPage = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -27,7 +32,36 @@ const CMSPage = () => {
   const columnHelper = createDataTableColumnHelper<CMSItem>();
   const columns = [
     columnHelper.accessor("name", { header: "Name" }),
-    columnHelper.accessor("title", { header: "Title" }),
+    columnHelper.accessor("region", {
+      header: "Country",
+      cell: ({ row }) => (
+        <span>
+          {regionsList.find((reg) => reg.value == row.original.region)?.label}
+        </span>
+      ),
+    }),
+    columnHelper.accessor("language", {
+      header: "Language",
+      cell: ({ row }) => (
+        <span>
+          {
+            languagesList.find((lang) => lang.value == row.original.language)
+              ?.label
+          }
+        </span>
+      ),
+    }),
+    columnHelper.accessor("position", {
+      header: "Position",
+      cell: ({ row }) => (
+        <span>
+          {
+            cmsPositionsList.find((pos) => pos.value == row.original.position)
+              ?.label
+          }
+        </span>
+      ),
+    }),
     columnHelper.accessor("updated_at", { header: "Updated At" }),
     columnHelper.accessor("id", {
       header: "Details",

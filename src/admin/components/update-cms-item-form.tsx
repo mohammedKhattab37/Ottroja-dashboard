@@ -6,6 +6,7 @@ import {
   Drawer,
   Button,
   Divider,
+  Select,
 } from "@medusajs/ui";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import * as zod from "zod";
@@ -19,6 +20,7 @@ import { CMSFormItemsList } from "./cms-form-items-list";
 import { CMSItem } from "../routes/cms/[itemId]/page";
 import { AdminFile } from "@medusajs/framework/types";
 import ImageCMSModule from "./cms-images-handler";
+import { languagesList, regionsList, cmsPositionsList } from "../lib/constants";
 
 export const UpdateCMSItemForm = ({
   initialItemData,
@@ -31,12 +33,7 @@ export const UpdateCMSItemForm = ({
   onOpenChange: (open: boolean) => void;
   refetch: () => Promise<void>;
 }) => {
-  const [engContent, setEngContent] = useState<Content>(
-    initialItemData.eng_content
-  );
-  const [arContent, setArContent] = useState<Content>(
-    initialItemData.ar_content
-  );
+  const [content, setContent] = useState<Content>(initialItemData.content);
   const [items, setItems] = useState(initialItemData.items);
   const [images, setImages] = useState<AdminFile[] | undefined>(
     initialItemData.images.map((imageStr) => {
@@ -49,6 +46,12 @@ export const UpdateCMSItemForm = ({
     defaultValues: {
       name: initialItemData.name,
       title: initialItemData.title || "",
+      sub_title: initialItemData.sub_title || "",
+      position: initialItemData.position || "",
+      language: initialItemData.language || "",
+      region: initialItemData.region || "",
+      button_destination: initialItemData.button_destination || "",
+      button_text: initialItemData.button_text || "",
     },
   });
 
@@ -60,8 +63,7 @@ export const UpdateCMSItemForm = ({
         body: {
           ...item,
           items: items,
-          eng_content: engContent,
-          ar_content: arContent,
+          content: content,
           images: images?.map((i) => i.url + "||" + i.id),
         },
       })
@@ -108,6 +110,108 @@ export const UpdateCMSItemForm = ({
                       );
                     }}
                   />
+                  <div className="grid grid-cols-5 gap-4">
+                    <Controller
+                      control={form.control}
+                      name="language"
+                      render={({ field }) => {
+                        return (
+                          <div className="flex flex-col space-y-2">
+                            <div className="flex items-center gap-x-1">
+                              <Label size="small" weight="plus">
+                                Language
+                              </Label>
+                            </div>
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <Select.Trigger>
+                                <Select.Value placeholder="Languages" />
+                              </Select.Trigger>
+                              <Select.Content>
+                                {languagesList.map((option) => (
+                                  <Select.Item
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select>
+                          </div>
+                        );
+                      }}
+                    />
+                    <Controller
+                      control={form.control}
+                      name="region"
+                      render={({ field }) => {
+                        return (
+                          <div className="flex flex-col space-y-2 col-span-2">
+                            <div className="flex items-center gap-x-1">
+                              <Label size="small" weight="plus">
+                                Country
+                              </Label>
+                            </div>
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <Select.Trigger>
+                                <Select.Value placeholder="Select a region" />
+                              </Select.Trigger>
+                              <Select.Content>
+                                {regionsList.map((option) => (
+                                  <Select.Item
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select>
+                          </div>
+                        );
+                      }}
+                    />
+                    <Controller
+                      control={form.control}
+                      name="position"
+                      render={({ field }) => {
+                        return (
+                          <div className="flex flex-col space-y-2 col-span-2">
+                            <div className="flex items-center gap-x-1">
+                              <Label size="small" weight="plus">
+                                Position
+                              </Label>
+                            </div>
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <Select.Trigger>
+                                <Select.Value placeholder="Select a position" />
+                              </Select.Trigger>
+                              <Select.Content>
+                                {cmsPositionsList.map((option) => (
+                                  <Select.Item
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select>
+                          </div>
+                        );
+                      }}
+                    />
+                  </div>
+
                   <Controller
                     control={form.control}
                     name="title"
@@ -125,29 +229,76 @@ export const UpdateCMSItemForm = ({
                       );
                     }}
                   />
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex items-center gap-x-1">
+
+                  <Controller
+                    control={form.control}
+                    name="sub_title"
+                    render={({ field }) => {
+                      return (
+                        <div className="flex flex-col space-y-2">
+                          <div className="flex items-center gap-x-1">
+                            <Label size="small" weight="plus">
+                              Sub Title
+                            </Label>
+                            <OptionalFormTag />
+                          </div>
+                          <Input {...field} value={field.value || undefined} />
+                        </div>
+                      );
+                    }}
+                  />
+
+                  <div className="grid gap-y-2 p-4">
+                    <div className="flex items-center gap-x-1 justify-center">
                       <Label size="small" weight="plus">
-                        English Content
+                        Button
                       </Label>
                       <OptionalFormTag />
                     </div>
-                    <RichTextEditor
-                      content={engContent}
-                      onChange={setEngContent}
+                    <Controller
+                      control={form.control}
+                      name="button_text"
+                      render={({ field }) => {
+                        return (
+                          <div className="flex flex-col space-y-2">
+                            <Label size="small" weight="plus">
+                              Text
+                            </Label>
+                            <Input
+                              {...field}
+                              value={field.value || undefined}
+                            />
+                          </div>
+                        );
+                      }}
+                    />
+                    <Controller
+                      control={form.control}
+                      name="button_destination"
+                      render={({ field }) => {
+                        return (
+                          <div className="flex flex-col space-y-2">
+                            <Label size="small" weight="plus">
+                              Destination
+                            </Label>
+                            <Input
+                              {...field}
+                              value={field.value || undefined}
+                            />
+                          </div>
+                        );
+                      }}
                     />
                   </div>
+
                   <div className="flex flex-col space-y-2">
                     <div className="flex items-center gap-x-1">
                       <Label size="small" weight="plus">
-                        Arabic Content
+                        Content
                       </Label>
                       <OptionalFormTag />
                     </div>
-                    <RichTextEditor
-                      content={arContent}
-                      onChange={setArContent}
-                    />
+                    <RichTextEditor content={content} onChange={setContent} />
                   </div>
 
                   <div>

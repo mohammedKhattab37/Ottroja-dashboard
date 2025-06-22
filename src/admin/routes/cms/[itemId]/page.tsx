@@ -6,13 +6,23 @@ import { sdk } from "../../../lib/sdk";
 import "../../../@/styles/tiptap-extensions-styles.scss";
 import { UpdateCMSItemForm } from "../../../components/update-cms-item-form";
 import { useState } from "react";
+import {
+  cmsPositionsList,
+  languagesList,
+  regionsList,
+} from "../../../lib/constants";
 
 export type CMSItem = {
   id: string;
   name: string;
+  region: string;
+  language: string;
+  position: string;
   title: string | null;
-  eng_content: string | null;
-  ar_content: string | null;
+  sub_title: string | null;
+  content: string | null;
+  button_destination: string | null;
+  button_text: string | null;
   items: {
     [key: string]: {
       title: string;
@@ -64,26 +74,129 @@ const CMSItemPage = () => {
             {data?.cms_item.title || "-"}
           </Text>
         </div>
-      </Container>
-      <Container className="divide-y">
-        <Heading level="h1" className="py-4">
-          English Content
-        </Heading>
-        {data?.cms_item.eng_content && (
+        {data?.cms_item.sub_title && (
           <div
-            className="p-4 tiptap bg-black/20"
-            dangerouslySetInnerHTML={{ __html: data?.cms_item.eng_content }}
-          ></div>
+            className={
+              "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
+            }
+          >
+            <Text size="small" weight="plus" leading="compact">
+              Sub Title
+            </Text>
+            <Text
+              size="small"
+              leading="compact"
+              className="whitespace-pre-line text-pretty"
+            >
+              {data?.cms_item.sub_title}
+            </Text>
+          </div>
         )}
+        <div
+          className={
+            "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
+          }
+        >
+          <Text size="small" weight="plus" leading="compact">
+            Language
+          </Text>
+          <Text
+            size="small"
+            leading="compact"
+            className="whitespace-pre-line text-pretty"
+          >
+            {
+              languagesList.find(
+                (lang) => lang.value == data?.cms_item.language
+              )?.label
+            }
+          </Text>
+        </div>
+        <div
+          className={
+            "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
+          }
+        >
+          <Text size="small" weight="plus" leading="compact">
+            Country
+          </Text>
+          <Text
+            size="small"
+            leading="compact"
+            className="whitespace-pre-line text-pretty"
+          >
+            {
+              regionsList.find((reg) => reg.value == data?.cms_item.region)
+                ?.label
+            }
+          </Text>
+        </div>
+        <div
+          className={
+            "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
+          }
+        >
+          <Text size="small" weight="plus" leading="compact">
+            Position
+          </Text>
+          <Text
+            size="small"
+            leading="compact"
+            className="whitespace-pre-line text-pretty"
+          >
+            {
+              cmsPositionsList.find(
+                (pos) => pos.value == data?.cms_item.position
+              )?.label
+            }
+          </Text>
+        </div>
       </Container>
       <Container className="divide-y">
         <Heading level="h1" className="py-4">
-          Arabic Content
+          Button
         </Heading>
-        {data?.cms_item.ar_content && (
+        <div
+          className={
+            "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
+          }
+        >
+          <Text size="small" weight="plus" leading="compact">
+            Text
+          </Text>
+          <Text
+            size="small"
+            leading="compact"
+            className="whitespace-pre-line text-pretty"
+          >
+            {data?.cms_item.button_text || "-"}
+          </Text>
+        </div>
+        <div
+          className={
+            "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
+          }
+        >
+          <Text size="small" weight="plus" leading="compact">
+            Destination
+          </Text>
+          <Text
+            size="small"
+            leading="compact"
+            className="whitespace-pre-line text-pretty"
+          >
+            {data?.cms_item.button_destination || "-"}
+          </Text>
+        </div>
+      </Container>
+      <Container className="divide-y">
+        <Heading level="h1" className="py-4">
+          Content
+        </Heading>
+        {data?.cms_item.content && (
           <div
             className="p-4 tiptap bg-black/20"
-            dangerouslySetInnerHTML={{ __html: data?.cms_item.ar_content }}
+            dangerouslySetInnerHTML={{ __html: data?.cms_item.content }}
           ></div>
         )}
       </Container>

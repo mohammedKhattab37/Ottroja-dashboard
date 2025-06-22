@@ -7,9 +7,14 @@ import { UpdateCMSItemStep } from "./steps/update-cms-item-step";
 export type UpdateCMSItemInput = {
   id: string;
   name: string;
+  region: string;
+  language: string;
+  position: string;
   title: string | null;
-  eng_content: string | null;
-  ar_content: string | null;
+  sub_title: string | null;
+  content: string | null;
+  button_destination: string | null;
+  button_text: string | null;
   items: {
     [key: string]: {
       title: string;

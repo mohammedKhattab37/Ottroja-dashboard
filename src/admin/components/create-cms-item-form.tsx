@@ -6,6 +6,7 @@ import {
   FocusModal,
   Button,
   Divider,
+  Select,
 } from "@medusajs/ui";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import * as zod from "zod";
@@ -18,6 +19,7 @@ import OptionalFormTag from "./optional-form-tag";
 import { CMSFormItemsList } from "./cms-form-items-list";
 import ImageCMSModule from "./cms-images-handler";
 import { AdminFile } from "@medusajs/framework/types";
+import { cmsPositionsList, languagesList, regionsList } from "../lib/constants";
 
 export const CreateCMSItemForm = ({
   refetch,
@@ -25,8 +27,7 @@ export const CreateCMSItemForm = ({
   refetch: () => Promise<void>;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [engContent, setEngContent] = useState<Content>("");
-  const [arContent, setArContent] = useState<Content>("");
+  const [content, setContent] = useState<Content>("");
   const [images, setImages] = useState<AdminFile[]>();
 
   const [items, setItems] = useState<{
@@ -39,6 +40,12 @@ export const CreateCMSItemForm = ({
     defaultValues: {
       name: "",
       title: "",
+      sub_title: "",
+      region: "",
+      position: "",
+      language: "",
+      button_destination: "",
+      button_text: "",
     },
   });
   const handleSubmit = form.handleSubmit((cmsItem) => {
@@ -48,8 +55,7 @@ export const CreateCMSItemForm = ({
         body: {
           ...cmsItem,
           items: items,
-          eng_content: engContent,
-          ar_content: arContent,
+          content: content,
           images: images?.map((i) => i.url + "||" + i.id),
         },
       })
@@ -59,7 +65,7 @@ export const CreateCMSItemForm = ({
         form.reset();
         refetch();
       })
-      .catch(() => {
+      .catch((e) => {
         toast.error("Failed to create CMS item");
       });
   });
@@ -100,6 +106,107 @@ export const CreateCMSItemForm = ({
                       );
                     }}
                   />
+                  <div className="grid grid-cols-5 gap-4">
+                    <Controller
+                      control={form.control}
+                      name="language"
+                      render={({ field }) => {
+                        return (
+                          <div className="flex flex-col space-y-2">
+                            <div className="flex items-center gap-x-1">
+                              <Label size="small" weight="plus">
+                                Language
+                              </Label>
+                            </div>
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <Select.Trigger>
+                                <Select.Value placeholder="Languages" />
+                              </Select.Trigger>
+                              <Select.Content>
+                                {languagesList.map((option) => (
+                                  <Select.Item
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select>
+                          </div>
+                        );
+                      }}
+                    />
+                    <Controller
+                      control={form.control}
+                      name="region"
+                      render={({ field }) => {
+                        return (
+                          <div className="flex flex-col space-y-2 col-span-2">
+                            <div className="flex items-center gap-x-1">
+                              <Label size="small" weight="plus">
+                                Country
+                              </Label>
+                            </div>
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <Select.Trigger>
+                                <Select.Value placeholder="Select a region" />
+                              </Select.Trigger>
+                              <Select.Content>
+                                {regionsList.map((option) => (
+                                  <Select.Item
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select>
+                          </div>
+                        );
+                      }}
+                    />
+                    <Controller
+                      control={form.control}
+                      name="position"
+                      render={({ field }) => {
+                        return (
+                          <div className="flex flex-col space-y-2 col-span-2">
+                            <div className="flex items-center gap-x-1">
+                              <Label size="small" weight="plus">
+                                Position
+                              </Label>
+                            </div>
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <Select.Trigger>
+                                <Select.Value placeholder="Select a position" />
+                              </Select.Trigger>
+                              <Select.Content>
+                                {cmsPositionsList.map((option) => (
+                                  <Select.Item
+                                    key={option.value}
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </Select.Item>
+                                ))}
+                              </Select.Content>
+                            </Select>
+                          </div>
+                        );
+                      }}
+                    />
+                  </div>
                   <Controller
                     control={form.control}
                     name="title"
@@ -118,29 +225,75 @@ export const CreateCMSItemForm = ({
                     }}
                   />
 
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex items-center gap-x-1">
+                  <Controller
+                    control={form.control}
+                    name="sub_title"
+                    render={({ field }) => {
+                      return (
+                        <div className="flex flex-col space-y-2">
+                          <div className="flex items-center gap-x-1">
+                            <Label size="small" weight="plus">
+                              Sub Title
+                            </Label>
+                            <OptionalFormTag />
+                          </div>
+                          <Input {...field} value={field.value || undefined} />
+                        </div>
+                      );
+                    }}
+                  />
+
+                  <div className="grid gap-y-2 p-4">
+                    <div className="flex items-center gap-x-1 justify-center">
                       <Label size="small" weight="plus">
-                        English Content
+                        Button
                       </Label>
                       <OptionalFormTag />
                     </div>
-                    <RichTextEditor
-                      content={engContent}
-                      onChange={setEngContent}
+                    <Controller
+                      control={form.control}
+                      name="button_text"
+                      render={({ field }) => {
+                        return (
+                          <div className="flex flex-col space-y-2">
+                            <Label size="small" weight="plus">
+                              Text
+                            </Label>
+                            <Input
+                              {...field}
+                              value={field.value || undefined}
+                            />
+                          </div>
+                        );
+                      }}
+                    />
+                    <Controller
+                      control={form.control}
+                      name="button_destination"
+                      render={({ field }) => {
+                        return (
+                          <div className="flex flex-col space-y-2">
+                            <Label size="small" weight="plus">
+                              Destination
+                            </Label>
+                            <Input
+                              {...field}
+                              value={field.value || undefined}
+                            />
+                          </div>
+                        );
+                      }}
                     />
                   </div>
+
                   <div className="flex flex-col space-y-2">
                     <div className="flex items-center gap-x-1">
                       <Label size="small" weight="plus">
-                        Arabic Content
+                        Content
                       </Label>
                       <OptionalFormTag />
                     </div>
-                    <RichTextEditor
-                      content={arContent}
-                      onChange={setArContent}
-                    />
+                    <RichTextEditor content={content} onChange={setContent} />
                   </div>
 
                   <div>

@@ -49,6 +49,13 @@ const CMSItemPage = () => {
       }),
   });
 
+  const isFieldVisible = (fieldName: string): boolean => {
+    const visibleFields = cmsPositionsList.find(
+      (option) => option.value === data?.cms_item.position
+    );
+    return visibleFields?.fields?.includes(fieldName) ?? true;
+  };
+
   return (
     <div className="flex w-full flex-col gap-y-3">
       <Container className="divide-y">
@@ -74,7 +81,8 @@ const CMSItemPage = () => {
             {data?.cms_item.title || "-"}
           </Text>
         </div>
-        {data?.cms_item.sub_title && (
+
+        {isFieldVisible("sub_title") && (
           <div
             className={
               "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
@@ -152,108 +160,120 @@ const CMSItemPage = () => {
           </Text>
         </div>
       </Container>
-      <Container className="divide-y">
-        <Heading level="h1" className="py-4">
-          Button
-        </Heading>
-        <div
-          className={
-            "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
-          }
-        >
-          <Text size="small" weight="plus" leading="compact">
-            Text
-          </Text>
-          <Text
-            size="small"
-            leading="compact"
-            className="whitespace-pre-line text-pretty"
-          >
-            {data?.cms_item.button_text || "-"}
-          </Text>
-        </div>
-        <div
-          className={
-            "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
-          }
-        >
-          <Text size="small" weight="plus" leading="compact">
-            Destination
-          </Text>
-          <Text
-            size="small"
-            leading="compact"
-            className="whitespace-pre-line text-pretty"
-          >
-            {data?.cms_item.button_destination || "-"}
-          </Text>
-        </div>
-      </Container>
-      <Container className="divide-y">
-        <Heading level="h1" className="py-4">
-          Content
-        </Heading>
-        {data?.cms_item.content && (
+
+      {isFieldVisible("button") && (
+        <Container className="divide-y">
+          <Heading level="h1" className="py-4">
+            Button
+          </Heading>
           <div
-            className="p-4 tiptap bg-black/20"
-            dangerouslySetInnerHTML={{ __html: data?.cms_item.content }}
-          ></div>
-        )}
-      </Container>
-      <Container>
-        <Heading level="h1" className="py-4">
-          Images
-        </Heading>
-        {data?.cms_item.images && (
-          <>
-            <Divider />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-              {data?.cms_item.images.map((image) => (
-                <img
-                  src={image.split("||")[0]}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              ))}
-            </div>
-          </>
-        )}
-      </Container>
-      <Container>
-        <Heading level="h1" className="py-4">
-          Items
-        </Heading>
-        <div className="py-4">
-          {Object.values(data?.cms_item.items || {}).map((item, i) => (
-            <div className="gap-y-2" key={i}>
-              <span>- {item.title}</span>
-              {item.url && (
-                <a
-                  href={
-                    item.url?.startsWith("http")
-                      ? item.url
-                      : `https://${item.url}`
-                  }
-                  target="_blank"
-                  className="ps-2 text-sm underline underline-offset-3 text-sky-500"
-                >
-                  ({item.url})
-                </a>
-              )}
-            </div>
-          ))}
-        </div>
-        {data?.cms_item && (
-          <UpdateCMSItemForm
-            isOpen={openModal}
-            onOpenChange={setOpenModal}
-            initialItemData={data?.cms_item}
-            refetch={() =>
-              queryClient.invalidateQueries({ queryKey: ["cms-item"] })
+            className={
+              "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
             }
-          />
-        )}
-      </Container>
+          >
+            <Text size="small" weight="plus" leading="compact">
+              Text
+            </Text>
+            <Text
+              size="small"
+              leading="compact"
+              className="whitespace-pre-line text-pretty"
+            >
+              {data?.cms_item.button_text || "-"}
+            </Text>
+          </div>
+          <div
+            className={
+              "text-ui-fg-subtle grid grid-cols-2 items-center px-6 py-4"
+            }
+          >
+            <Text size="small" weight="plus" leading="compact">
+              Destination
+            </Text>
+            <Text
+              size="small"
+              leading="compact"
+              className="whitespace-pre-line text-pretty"
+            >
+              {data?.cms_item.button_destination || "-"}
+            </Text>
+          </div>
+        </Container>
+      )}
+
+      {isFieldVisible("content") && (
+        <Container className="divide-y">
+          <Heading level="h1" className="py-4">
+            Content
+          </Heading>
+          {data?.cms_item.content && (
+            <div
+              className="p-4 tiptap bg-black/20"
+              dangerouslySetInnerHTML={{ __html: data?.cms_item.content }}
+            ></div>
+          )}
+        </Container>
+      )}
+
+      {isFieldVisible("images") && (
+        <Container>
+          <Heading level="h1" className="py-4">
+            Images
+          </Heading>
+          {data?.cms_item.images && (
+            <>
+              <Divider />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+                {data?.cms_item.images.map((image) => (
+                  <img
+                    src={image.split("||")[0]}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </Container>
+      )}
+
+      {isFieldVisible("items") && (
+        <Container>
+          <Heading level="h1" className="py-4">
+            Items
+          </Heading>
+          <div className="py-4">
+            {Object.values(data?.cms_item.items || {}).map((item, i) => (
+              <div className="gap-y-2" key={i}>
+                <span>- {item.title}</span>
+                {item.url && (
+                  <a
+                    href={
+                      item.url?.startsWith("http")
+                        ? item.url
+                        : `https://${item.url}`
+                    }
+                    target="_blank"
+                    className="ps-2 text-sm underline underline-offset-3 text-sky-500"
+                  >
+                    ({item.url})
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </Container>
+      )}
+      {data?.cms_item && (
+        <UpdateCMSItemForm
+          isOpen={openModal}
+          onOpenChange={setOpenModal}
+          initialItemData={data.cms_item}
+          refetch={() =>
+            queryClient.invalidateQueries({ queryKey: ["cms-item"] })
+          }
+        />
+      )}
     </div>
   );
 };

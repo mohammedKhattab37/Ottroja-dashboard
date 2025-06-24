@@ -5,6 +5,7 @@ export const cmsItemSchema = zod.object({
   position: zod.string().min(1, "Choose a position"),
   region: zod.string().min(1, "Choose a country"),
   language: zod.string().min(1, "Choose a language"),
+  page_type: zod.string().optional(),
   title: zod.string().nullable(),
   sub_title: zod.string().nullable(),
   content: zod.string().nullable(),

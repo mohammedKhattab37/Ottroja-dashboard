@@ -27,6 +27,11 @@ export const cmsPositionsList = [
     value: "FOOTER",
     fields: ["title", "sub_title", "items", "button"],
   },
+  {
+    label: "Page",
+    value: "PAGE",
+    fields: ["title", "sub_title", "content", "items", "images", "button"],
+  },
 ];
 
 export const regionsList = [
@@ -38,4 +43,10 @@ export const languagesList = [
   { label: "Arabic", value: "AR" },
   { label: "English", value: "EN" },
   { label: "Russian", value: "RU" },
+];
+
+export const pageTypesList = [
+  { label: "Return Policy", value: "RETURN_POLICY" },
+  { label: "Usage Policy", value: "USAGE_POLICY" },
+  { label: "Terms and Conditions", value: "TERMS_CONDITIONS" },
 ];

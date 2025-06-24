@@ -11,13 +11,16 @@ const positionEnum = [
   "IMAGES_GALLERY",
   "OFFER_BANNER2",
   "FOOTER",
+  "PAGE",
 ];
+const pageTypeEnum = ["RETURN_POLICY", "USAGE_POLICY", "TERMS_CONDITIONS"];
 
 const CMSItem = model.define("cms_item", {
   id: model.id().primaryKey(),
   position: model.enum(positionEnum),
   language: model.enum(languagesCodesEnum),
   name: model.text().unique(),
+  page_type: model.enum(pageTypeEnum).nullable(),
   title: model.text().nullable(),
   sub_title: model.text().nullable(),
   region: model.enum(regionsCodesEnum),

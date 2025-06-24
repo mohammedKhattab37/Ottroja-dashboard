@@ -30,7 +30,8 @@
             "SUB_OFFERS",
             "IMAGES_GALLERY",
             "OFFER_BANNER2",
-            "FOOTER"
+            "FOOTER",
+            "PAGE"
           ],
           "mappedType": "enum"
         },
@@ -56,6 +57,20 @@
           "primary": false,
           "nullable": false,
           "mappedType": "text"
+        },
+        "page_type": {
+          "name": "page_type",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "enumItems": [
+            "RETURN_POLICY",
+            "USAGE_POLICY",
+            "TERMS_CONDITIONS"
+          ],
+          "mappedType": "enum"
         },
         "title": {
           "name": "title",

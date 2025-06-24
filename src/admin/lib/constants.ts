@@ -1,12 +1,32 @@
 export const cmsPositionsList = [
-  { label: "Nav links", value: "NAV_LINKS" },
-  { label: "Hero slide", value: "HERO" },
-  { label: "Special offers", value: "SPECIAL_OFFERS" },
-  { label: "Offer banner 1", value: "OFFER_BANNER1" },
-  { label: "Offer banner 2", value: "OFFER_BANNER2" },
-  { label: "Sub offers", value: "SUB_OFFERS" },
-  { label: "Images gallery", value: "IMAGES_GALLERY" },
-  { label: "Footer", value: "FOOTER" },
+  { label: "Nav links", value: "NAV_LINKS", fields: ["items"] },
+  {
+    label: "Hero slide",
+    value: "HERO",
+    fields: ["title", "sub_title", "images", "button"],
+  },
+  {
+    label: "Special offers",
+    value: "SPECIAL_OFFERS",
+    fields: ["title", "sub_title", "button", "images"],
+  },
+  {
+    label: "Offer banner 1",
+    value: "OFFER_BANNER1",
+    fields: ["title", "sub_title", "button", "images"],
+  },
+  {
+    label: "Offer banner 2",
+    value: "OFFER_BANNER2",
+    fields: ["title", "sub_title", "button", "images"],
+  },
+  { label: "Sub offers", value: "SUB_OFFERS", fields: ["images"] },
+  { label: "Images gallery", value: "IMAGES_GALLERY", fields: ["images"] },
+  {
+    label: "Footer",
+    value: "FOOTER",
+    fields: ["title", "sub_title", "items", "button"],
+  },
 ];
 
 export const regionsList = [

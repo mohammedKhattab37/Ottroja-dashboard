@@ -33,6 +33,10 @@ export const UpdateCMSItemForm = ({
   onOpenChange: (open: boolean) => void;
   refetch: () => Promise<void>;
 }) => {
+  const [visibleFormInputs, setVisibleFormInputs] = useState<string[]>(
+    cmsPositionsList.find((option) => option.value === initialItemData.position)
+      ?.fields || []
+  );
   const [content, setContent] = useState<Content>(initialItemData.content);
   const [items, setItems] = useState(initialItemData.items);
   const [images, setImages] = useState<AdminFile[] | undefined>(
@@ -55,8 +59,18 @@ export const UpdateCMSItemForm = ({
     },
   });
 
+  const isFieldVisible = (fieldName: string): boolean => {
+    if (visibleFormInputs.length == 0) return true; // Show all fields if no position selected
+
+    return visibleFormInputs?.includes(fieldName) ?? true;
+  };
+
   const handleSubmit = form.handleSubmit((item) => {
-    console.log(images);
+    if (item.button_text == "" || item.button_destination == "") {
+      item.button_destination = "";
+      item.button_text = "";
+    }
+
     sdk.client
       .fetch(`/admin/cms/${initialItemData.id}`, {
         method: "POST",
@@ -68,7 +82,7 @@ export const UpdateCMSItemForm = ({
         },
       })
       .then(() => {
-        toast.success("CMS Item created");
+        toast.success("CMS Item updated");
         onOpenChange?.(false);
         form.reset();
         refetch?.();
@@ -129,7 +143,7 @@ export const UpdateCMSItemForm = ({
                               <Select.Trigger>
                                 <Select.Value placeholder="Languages" />
                               </Select.Trigger>
-                              <Select.Content>
+                              <Select.Content className="max-h-fit">
                                 {languagesList.map((option) => (
                                   <Select.Item
                                     key={option.value}
@@ -162,7 +176,7 @@ export const UpdateCMSItemForm = ({
                               <Select.Trigger>
                                 <Select.Value placeholder="Select a region" />
                               </Select.Trigger>
-                              <Select.Content>
+                              <Select.Content className="max-h-fit">
                                 {regionsList.map((option) => (
                                   <Select.Item
                                     key={option.value}
@@ -190,12 +204,18 @@ export const UpdateCMSItemForm = ({
                             </div>
                             <Select
                               value={field.value}
-                              onValueChange={field.onChange}
+                              onValueChange={(value) => {
+                                field.onChange(value);
+                                const selected = cmsPositionsList.find(
+                                  (option) => option.value === value
+                                );
+                                setVisibleFormInputs(selected?.fields || []);
+                              }}
                             >
                               <Select.Trigger>
                                 <Select.Value placeholder="Select a position" />
                               </Select.Trigger>
-                              <Select.Content>
+                              <Select.Content className="max-h-fit">
                                 {cmsPositionsList.map((option) => (
                                   <Select.Item
                                     key={option.value}
@@ -212,58 +232,19 @@ export const UpdateCMSItemForm = ({
                     />
                   </div>
 
-                  <Controller
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => {
-                      return (
-                        <div className="flex flex-col space-y-2">
-                          <div className="flex items-center gap-x-1">
-                            <Label size="small" weight="plus">
-                              Title
-                            </Label>
-                            <OptionalFormTag />
-                          </div>
-                          <Input {...field} value={field.value || ""} />
-                        </div>
-                      );
-                    }}
-                  />
-
-                  <Controller
-                    control={form.control}
-                    name="sub_title"
-                    render={({ field }) => {
-                      return (
-                        <div className="flex flex-col space-y-2">
-                          <div className="flex items-center gap-x-1">
-                            <Label size="small" weight="plus">
-                              Sub Title
-                            </Label>
-                            <OptionalFormTag />
-                          </div>
-                          <Input {...field} value={field.value || undefined} />
-                        </div>
-                      );
-                    }}
-                  />
-
-                  <div className="grid gap-y-2 p-4">
-                    <div className="flex items-center gap-x-1 justify-center">
-                      <Label size="small" weight="plus">
-                        Button
-                      </Label>
-                      <OptionalFormTag />
-                    </div>
+                  {isFieldVisible("title") && (
                     <Controller
                       control={form.control}
-                      name="button_text"
+                      name="title"
                       render={({ field }) => {
                         return (
                           <div className="flex flex-col space-y-2">
-                            <Label size="small" weight="plus">
-                              Text
-                            </Label>
+                            <div className="flex items-center gap-x-1">
+                              <Label size="small" weight="plus">
+                                Title
+                              </Label>
+                              <OptionalFormTag />
+                            </div>
                             <Input
                               {...field}
                               value={field.value || undefined}
@@ -272,15 +253,21 @@ export const UpdateCMSItemForm = ({
                         );
                       }}
                     />
+                  )}
+
+                  {isFieldVisible("sub_title") && (
                     <Controller
                       control={form.control}
-                      name="button_destination"
+                      name="sub_title"
                       render={({ field }) => {
                         return (
                           <div className="flex flex-col space-y-2">
-                            <Label size="small" weight="plus">
-                              Destination
-                            </Label>
+                            <div className="flex items-center gap-x-1">
+                              <Label size="small" weight="plus">
+                                Sub Title
+                              </Label>
+                              <OptionalFormTag />
+                            </div>
                             <Input
                               {...field}
                               value={field.value || undefined}
@@ -289,64 +276,126 @@ export const UpdateCMSItemForm = ({
                         );
                       }}
                     />
-                  </div>
+                  )}
 
-                  <div className="flex flex-col space-y-2">
-                    <div className="flex items-center gap-x-1">
-                      <Label size="small" weight="plus">
-                        Content
-                      </Label>
-                      <OptionalFormTag />
-                    </div>
-                    <RichTextEditor content={content} onChange={setContent} />
-                  </div>
-
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-x-1">
+                  {isFieldVisible("button") && (
+                    <div className="grid gap-y-4">
+                      <div className="flex items-center gap-x-1">
                         <Label size="small" weight="plus">
-                          Items
+                          Button
                         </Label>
                         <OptionalFormTag />
                       </div>
-
-                      <Button
-                        variant="secondary"
-                        type="button"
-                        onClick={() => {
-                          const newKey = Object.keys(items).length.toString();
-                          setItems({
-                            ...items,
-                            [newKey]: {
-                              title: "",
-                              url: undefined,
-                            },
-                          });
-                        }}
-                      >
-                        Add
-                      </Button>
+                      <div className="px-5 grid gap-y-2">
+                        <Controller
+                          control={form.control}
+                          name="button_text"
+                          render={({ field }) => {
+                            return (
+                              <div className="flex flex-col space-y-2">
+                                <Label size="small" weight="plus">
+                                  Text
+                                </Label>
+                                <Input
+                                  {...field}
+                                  value={field.value || undefined}
+                                />
+                              </div>
+                            );
+                          }}
+                        />
+                        <Controller
+                          control={form.control}
+                          name="button_destination"
+                          render={({ field }) => {
+                            return (
+                              <div className="flex flex-col space-y-2">
+                                <Label size="small" weight="plus">
+                                  Destination
+                                </Label>
+                                <Input
+                                  {...field}
+                                  value={field.value || undefined}
+                                />
+                              </div>
+                            );
+                          }}
+                        />
+                      </div>
                     </div>
-                    <Divider className="my-2" />
-                    {Object.values(items).map((item, i) => (
-                      <CMSFormItemsList
-                        key={i}
-                        item={item}
-                        index={i}
-                        setItems={setItems}
-                      />
-                    ))}
-                  </div>
+                  )}
 
-                  <div className="flex flex-col space-y-4">
-                    <div className="flex gap-x-1">
-                      <Label size="small" weight="plus">
-                        Images
-                      </Label>
-                      <OptionalFormTag />
+                  {isFieldVisible("content") && (
+                    <>
+                      <Divider />
+                      <div className="flex flex-col space-y-2">
+                        <div className="flex items-center gap-x-1">
+                          <Label size="small" weight="plus">
+                            Content
+                          </Label>
+                          <OptionalFormTag />
+                        </div>
+                        <RichTextEditor
+                          content={content}
+                          onChange={setContent}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {isFieldVisible("items") && (
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <div className="flex gap-x-1">
+                          <Label size="small" weight="plus">
+                            Items
+                          </Label>
+                          <OptionalFormTag />
+                        </div>
+
+                        <Button
+                          variant="secondary"
+                          type="button"
+                          onClick={() => {
+                            const newKey = Object.keys(items).length.toString();
+                            setItems({
+                              ...items,
+                              [newKey]: {
+                                title: "",
+                                url: undefined,
+                              },
+                            });
+                          }}
+                        >
+                          Add
+                        </Button>
+                      </div>
+                      <Divider className="my-2" />
+                      {Object.values(items).map((item, i) => (
+                        <CMSFormItemsList
+                          key={i}
+                          item={item}
+                          index={i}
+                          setItems={setItems}
+                        />
+                      ))}
                     </div>
-                    <ImageCMSModule images={images} setImages={setImages} />
-                  </div>
+                  )}
+
+                  {isFieldVisible("images") && (
+                    <>
+                      <Divider />
+                      <div className="flex flex-col space-y-4">
+                        <div className="flex gap-x-1">
+                          <Label size="small" weight="plus">
+                            Images
+                          </Label>
+                          <OptionalFormTag />
+                        </div>
+                        <ImageCMSModule images={images} setImages={setImages} />
+                      </div>
+                    </>
+                  )}
                 </Container>
                 <Button type="submit">Update</Button>
               </form>

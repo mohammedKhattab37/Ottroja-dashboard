@@ -46,6 +46,14 @@ class ProductTranslationService extends MedusaService({
     return translation;
   }
 
+  async getTranslationsByCodes(product_ids: string[], language_code: string) {
+    const translations = await this.listProductTranslations({
+      product_id: { $in: product_ids },
+      language_code,
+    });
+    return translations;
+  }
+
   async getAllProductTranslations(product_id: string) {
     const translations = await this.listProductTranslations({
       product_id,

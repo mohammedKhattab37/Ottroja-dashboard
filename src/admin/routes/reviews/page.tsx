@@ -1,5 +1,5 @@
 import { defineRouteConfig } from "@medusajs/admin-sdk";
-import { ChatBubbleLeftRight } from "@medusajs/icons";
+import { ChatBubbleLeftRight, ExclamationCircle } from "@medusajs/icons";
 import {
     createDataTableCommandHelper,
     DataTableRowSelectionState,
@@ -99,10 +99,12 @@ const columns = [
         sortDescLabel: "Z-A",
         id: "product_id",
         cell: ({ row }) => {
-            return (
+            return row.original.product ? (
                 <Link to={`/products/${row.original.product_id}`}>
-                    {row.original.product?.title}
+                    {row.original.product.title}
                 </Link>
+            ) : (
+                <span className="text-ui-fg-muted">Product deleted</span>
             );
         },
     }),
@@ -337,11 +339,28 @@ const ReviewsPage = () => {
                         <DataTable.SortingMenu tooltip="Sort" />
                     </div>
                 </DataTable.Toolbar>
-                <DataTable.Table />
-                <DataTable.Pagination />
-                <DataTable.CommandBar
-                    selectedLabel={(count) => `${count} selected`}
-                />
+                {filteredAndSortedReviews &&
+                filteredAndSortedReviews.length > 0 ? (
+                    <>
+                        <DataTable.Table />
+                        <DataTable.Pagination />
+                        <DataTable.CommandBar
+                            selectedLabel={(count) => `${count} selected`}
+                        />
+                    </>
+                ) : (
+                    <div className="flex h-[150px] w-full flex-col items-center justify-center gap-y-4">
+                        <ExclamationCircle className="text-ui-fg-subtle" />
+                        <div className="text-center">
+                            <p className="font-medium txt-compact-small">
+                                No reviews
+                            </p>
+                            <p className="font-normal txt-small text-ui-fg-muted">
+                                There are no reviews to show
+                            </p>
+                        </div>
+                    </div>
+                )}
             </DataTable>
             <Toaster />
         </Container>

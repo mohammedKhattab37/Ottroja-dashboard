@@ -49,10 +49,16 @@ const columns = [
         cell: ({ row }) => {
             return row.original.items.map((item) => (
                 <div key={item.id}>
-                    <Link to={`/products/${item.product.id}`}>
-                        {item.product.title}
-                    </Link>{" "}
-                    x {item.quantity}
+                    {item.product ? (
+                        <>
+                            <Link to={`/products/${item.product.id}`}>
+                                {item.product.title}
+                            </Link>{" "}
+                            x {item.quantity}
+                        </>
+                    ) : (
+                        <span>Unknown Product x {item.quantity}</span>
+                    )}
                 </div>
             ));
         },
@@ -60,10 +66,12 @@ const columns = [
     columnHelper.accessor("product", {
         header: "Product",
         cell: ({ row }) => {
-            return (
-                <Link to={`/products/${row.original.product?.id}`}>
+            return row.original.product ? (
+                <Link to={`/products/${row.original.product.id}`}>
                     View Product
                 </Link>
+            ) : (
+                <span>No Product</span>
             );
         },
     }),

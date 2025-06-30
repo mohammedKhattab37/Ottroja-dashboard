@@ -1,5 +1,5 @@
 import { defineRouteConfig } from "@medusajs/admin-sdk";
-import { CubeSolid } from "@medusajs/icons";
+import { CubeSolid, ExclamationCircle } from "@medusajs/icons";
 import {
     Container,
     Heading,
@@ -145,8 +145,24 @@ const BundledProductsPage = () => {
                     <Heading>Bundled Products</Heading>
                     <CreateBundledProduct />
                 </DataTable.Toolbar>
-                <DataTable.Table />
-                <DataTable.Pagination />
+                {data?.bundled_products && data.bundled_products.length > 0 ? (
+                    <>
+                        <DataTable.Table />
+                        <DataTable.Pagination />
+                    </>
+                ) : (
+                    <div className="flex h-[150px] w-full flex-col items-center justify-center gap-y-4">
+                        <ExclamationCircle className="text-ui-fg-subtle" />
+                        <div className="text-center">
+                            <p className="font-medium txt-compact-small">
+                                No bundled products
+                            </p>
+                            <p className="font-normal txt-small text-ui-fg-muted">
+                                There are no bundled products to show
+                            </p>
+                        </div>
+                    </div>
+                )}
             </DataTable>
         </Container>
     );

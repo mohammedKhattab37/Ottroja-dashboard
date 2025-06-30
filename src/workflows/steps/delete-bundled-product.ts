@@ -15,14 +15,22 @@ export const deleteBundledProductStep = createStep(
         const { data: bundleData } = await query.graph({
             entity: "bundle",
             filters: { id },
-            fields: ["id", "title"],
+            fields: ["id", "title", "items.*"],
         });
 
         if (!bundleData?.length) {
             throw new Error(`Bundle with ID ${id} not found`);
         }
 
-        // Delete the bundle (items should cascade delete based on model relationship)
+        const bundle = bundleData[0];
+
+        // First delete all bundle items to avoid foreign key constraint issues
+        if (bundle.items && bundle.items.length > 0) {
+            const itemIds = bundle.items.map((item: any) => item.id);
+            await bundledProductModuleService.deleteBundleItems(itemIds);
+        }
+
+        // Then delete the bundle
         await bundledProductModuleService.deleteBundles(id);
 
         return new StepResponse({ id, deleted: true });

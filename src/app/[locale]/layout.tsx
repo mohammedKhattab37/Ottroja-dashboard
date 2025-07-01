@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 
 import "../globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
     title: "Ottroja Dashboard",
@@ -27,6 +28,7 @@ export default async function LocaleLayout({
         <html lang={locale}>
             <body>
                 <NextIntlClientProvider>{children}</NextIntlClientProvider>
+                <Toaster richColors />
             </body>
         </html>
     );

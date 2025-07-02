@@ -13,11 +13,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { signUp } from "@/lib/auth-client";
+import { useState } from "react";
 
 export function RegisterForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
+    const [isPending, setIsPending] = useState(false);
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
@@ -42,9 +45,12 @@ export function RegisterForm({
             { name, email, password },
             {
                 onRequest: () => {
+                    setIsPending(true);
                     toast.loading("Creating account...");
                 },
-                onResponse: () => {},
+                onResponse: () => {
+                    setIsPending(false);
+                },
                 onError: (ctx) => {
                     toast.error(ctx.error.message);
                 },
@@ -108,8 +114,14 @@ export function RegisterForm({
                                 />
                             </div>
                             <div className="flex flex-col gap-3">
-                                <Button type="submit" className="w-full">
-                                    Create Account
+                                <Button
+                                    type="submit"
+                                    className="w-full"
+                                    disabled={isPending}
+                                >
+                                    {isPending
+                                        ? "Creating account..."
+                                        : "Create Account"}
                                 </Button>
                             </div>
                         </div>

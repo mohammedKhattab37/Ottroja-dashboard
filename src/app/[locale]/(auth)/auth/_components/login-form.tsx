@@ -69,7 +69,6 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          ‰
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">

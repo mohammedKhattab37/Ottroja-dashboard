@@ -14,31 +14,35 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signUp } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import { redirect } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, useRouter } from "@/i18n/navigation";
 
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const t = useTranslations("Auth.Register");
   const [isPending, setIsPending] = useState(false);
+  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
 
     const name = String(formData.get("name"));
-    if (!name) return toast.error("Name is required");
+    if (!name) return toast.error(t("errors.nameRequired"));
 
     const email = String(formData.get("email"));
-    if (!email) return toast.error("Email is required");
+    if (!email) return toast.error(t("errors.emailRequired"));
 
     const password = String(formData.get("password"));
-    if (!password) return toast.error("Password is required");
+    if (!password) return toast.error(t("errors.passwordRequired"));
 
     const confirmPassword = String(formData.get("confirmPassword"));
-    if (!confirmPassword) return toast.error("Confirm password is required");
+    if (!confirmPassword)
+      return toast.error(t("errors.confirmPasswordRequired"));
     if (password !== confirmPassword)
-      return toast.error("Passwords do not match");
+      return toast.error(t("errors.passwordsDoNotMatch"));
 
     await signUp.email(
       { name, email, password },
@@ -48,7 +52,7 @@ export function RegisterForm({
         },
         onResponse: () => setIsPending(false),
         onError: (ctx) => {
-          let errorMsg = "An error occurred during registration";
+          let errorMsg = t("errors.defaultError");
 
           if (typeof ctx.error === "string") {
             errorMsg = ctx.error;
@@ -67,8 +71,8 @@ export function RegisterForm({
           toast.error(errorMsg);
         },
         onSuccess: () => {
-          toast.success("Account created successfully");
-          redirect("/");
+          toast.success(t("success"));
+          router.push("/");
         },
       }
     );
@@ -78,40 +82,38 @@ export function RegisterForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle>Create your account</CardTitle>
-          <CardDescription>
-            Enter your information below to create your account
-          </CardDescription>
+          <CardTitle>{t("title")}</CardTitle>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="name">{t("fullName")}</Label>
                 <Input
                   id="name"
                   name="name"
-                  placeholder="Ammar Ahmed"
+                  placeholder={t("fullNamePlaceholder")}
                   required
                   type="text"
                 />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("email")}</Label>
                 <Input
                   id="email"
                   name="email"
-                  placeholder="ammar@example.com"
+                  placeholder={t("emailPlaceholder")}
                   required
                   type="email"
                 />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t("password")}</Label>
                 <Input id="password" name="password" required type="password" />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">{t("confirmPassword")}</Label>
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
@@ -120,13 +122,16 @@ export function RegisterForm({
                 />
               </div>
               <Button className="w-full" disabled={isPending} type="submit">
-                {isPending ? "Creating account..." : "Create Account"}
+                {isPending ? t("creatingAccount") : t("createAccount")}
               </Button>
               <div className="text-center text-sm">
-                Already have an account?{" "}
-                <a className="underline underline-offset-4" href="/auth/login">
-                  Sign in
-                </a>
+                {t("alreadyHaveAccount")}{" "}
+                <Link
+                  className="underline underline-offset-4"
+                  href="/auth/login"
+                >
+                  {t("signIn")}
+                </Link>
               </div>
             </div>
           </form>

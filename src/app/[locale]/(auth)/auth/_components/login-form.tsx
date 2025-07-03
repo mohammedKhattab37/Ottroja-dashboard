@@ -14,7 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { Link, useRouter } from "@/i18n/navigation";
 
 interface ErrorResponse {
   error: string;
@@ -24,6 +25,7 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const t = useTranslations("Auth.Login");
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
 
@@ -32,10 +34,10 @@ export function LoginForm({
     const formData = new FormData(e.target as HTMLFormElement);
 
     const email = String(formData.get("email"));
-    if (!email) return toast.error("Email is required");
+    if (!email) return toast.error(t("errors.emailRequired"));
 
     const password = String(formData.get("password"));
-    if (!password) return toast.error("Password is required");
+    if (!password) return toast.error(t("errors.passwordRequired"));
 
     await signIn.email(
       { email, password },
@@ -45,7 +47,7 @@ export function LoginForm({
         },
         onResponse: () => setIsPending(false),
         onError: (ctx) => {
-          let errorMsg = "An error occurred during sign in";
+          let errorMsg = t("errors.defaultError");
 
           if (typeof ctx.error === "string") {
             errorMsg = ctx.error;
@@ -64,7 +66,7 @@ export function LoginForm({
           toast.error(errorMsg);
         },
         onSuccess: () => {
-          toast.success("Signed in successfully");
+          toast.success(t("success"));
           router.push("/");
         },
       }
@@ -75,47 +77,45 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
+          <CardTitle>{t("title")}</CardTitle>
+          <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t("email")}</Label>
                 <Input
                   id="email"
                   name="email"
-                  placeholder="m@example.com"
+                  placeholder={t("emailPlaceholder")}
                   required
                   type="email"
                 />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <a
+                  <Label htmlFor="password">{t("password")}</Label>
+                  <Link
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                     href="/auth/forgot-password"
                   >
-                    Forgot your password?
-                  </a>
+                    {t("forgotPassword")}
+                  </Link>
                 </div>
                 <Input id="password" name="password" required type="password" />
               </div>
               <Button className="w-full" disabled={isPending} type="submit">
-                {isPending ? "Signing in..." : "Login"}
+                {isPending ? t("signingIn") : t("login")}
               </Button>
               <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <a
+                {t("dontHaveAccount")}{" "}
+                <Link
                   className="underline underline-offset-4"
                   href="/auth/register"
                 >
-                  Sign up
-                </a>
+                  {t("signUp")}
+                </Link>
               </div>
             </div>
           </form>

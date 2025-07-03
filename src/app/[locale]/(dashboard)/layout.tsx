@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { routing } from "@/i18n/routing";
-
 import "../../globals.css";
+
 import { Toaster } from "@/components/ui/sonner";
 import { AppSidebar } from "@/components/app-sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -52,7 +53,7 @@ export default async function DashboardLayout({
                 </div>
               </header>
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                {children}
+                <NuqsAdapter>{children}</NuqsAdapter>
               </div>
             </SidebarInset>
           </SidebarProvider>

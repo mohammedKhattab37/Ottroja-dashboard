@@ -4,6 +4,12 @@ import { routing } from "@/i18n/routing";
 
 import "../../globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Ottroja Auth",
+  description: "Ottroja Auth",
+};
 
 export default async function AuthLayout({
   children,

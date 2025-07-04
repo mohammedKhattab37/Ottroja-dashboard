@@ -1,0 +1,45 @@
+{
+  "Auth": {
+    "Register": {
+      "title": "Create your account",
+      "description": "Enter your information below to create your account",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Ammar Ahmed",
+      "email": "Email",
+      "emailPlaceholder": "ammar@example.com",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "createAccount": "Create Account",
+      "creatingAccount": "Creating account...",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "errors": {
+        "nameRequired": "Name is required",
+        "emailRequired": "Email is required",
+        "passwordRequired": "Password is required",
+        "confirmPasswordRequired": "Confirm password is required",
+        "passwordsDoNotMatch": "Passwords do not match",
+        "defaultError": "An error occurred during registration"
+      },
+      "success": "Account created successfully"
+    },
+    "Login": {
+      "title": "Login to your account",
+      "description": "Enter your email below to login to your account",
+      "email": "Email",
+      "emailPlaceholder": "m@example.com",
+      "password": "Password",
+      "forgotPassword": "Forgot your password?",
+      "login": "Login",
+      "signingIn": "Signing in...",
+      "dontHaveAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "errors": {
+        "emailRequired": "Email is required",
+        "passwordRequired": "Password is required",
+        "defaultError": "An error occurred during sign in"
+      },
+      "success": "Signed in successfully"
+    }
+  }
+}

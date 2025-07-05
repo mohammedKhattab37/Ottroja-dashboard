@@ -18,6 +18,7 @@ import {
   BarChart3,
   Users,
   ShoppingCart,
+  Warehouse,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -72,6 +73,11 @@ function useNavigationData() {
         title: t('customers'),
         url: "/customers",
         icon: Users,
+      },
+      {
+        title: t('inventory'),
+        url: "/inventory",
+        icon: Warehouse,
       },
       {
         title: t('settings'),

@@ -99,6 +99,7 @@
     "categories": "التصنيفات",
     "orders": "الطلبات",
     "customers": "العملاء",
+    "inventory": "المخزون",
     "settings": "الإعدادات",
     "general": "عام",
     "store": "المتجر",
@@ -394,5 +395,100 @@
     "operationFailed": "فشلت العملية",
     "unauthorizedAccess": "وصول غير مسموح",
     "sessionExpired": "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى."
+  },
+  "Inventory": {
+    "title": "إدارة المخزون",
+    "description": "تتبع مستويات المخزون والحجوزات والمواقع",
+    "addInventory": "إضافة مخزون",
+    "editInventory": "تعديل المخزون",
+    "createInventory": "إنشاء سجل مخزون",
+    "deleteInventory": "حذف المخزون",
+    "adjustStock": "تعديل المخزون",
+    "bulkAdjust": "تعديلات مجمعة",
+    "inventoryCreated": "تم إنشاء سجل المخزون بنجاح",
+    "inventoryUpdated": "تم تحديث سجل المخزون بنجاح",
+    "inventoryDeleted": "تم حذف سجل المخزون بنجاح",
+    "stockAdjusted": "تم تعديل المخزون بنجاح",
+    "fields": {
+      "variantId": "متغير المنتج",
+      "quantityOnHand": "الكمية المتاحة",
+      "quantityReserved": "الكمية المحجوزة",
+      "quantityAvailable": "الكمية القابلة للاستخدام",
+      "lastRestockDate": "تاريخ آخر تجديد",
+      "location": "الموقع",
+      "notes": "ملاحظات",
+      "adjustmentType": "نوع التعديل",
+      "quantity": "الكمية",
+      "reason": "السبب"
+    },
+    "adjustmentTypes": {
+      "increase": "زيادة المخزون",
+      "decrease": "تقليل المخزون",
+      "reserve": "حجز المخزون",
+      "release": "إلغاء الحجز",
+      "fulfill": "تنفيذ الطلب"
+    },
+    "placeholders": {
+      "selectVariant": "اختر متغير المنتج",
+      "location": "مثل: المستودع_الرئيسي، المتجر_1",
+      "notes": "ملاحظات إضافية (اختياري)",
+      "quantity": "أدخل الكمية",
+      "reason": "سبب التعديل"
+    },
+    "table": {
+      "columns": {
+        "variant": "متغير المنتج",
+        "sku": "رمز المنتج",
+        "quantityOnHand": "المتاح",
+        "quantityReserved": "المحجوز",
+        "quantityAvailable": "القابل للاستخدام",
+        "location": "الموقع",
+        "lastRestockDate": "آخر تجديد",
+        "status": "الحالة"
+      },
+      "actions": {
+        "copyId": "نسخ معرف المخزون",
+        "adjust": "تعديل المخزون",
+        "edit": "تعديل",
+        "delete": "حذف"
+      }
+    },
+    "status": {
+      "inStock": "متوفر",
+      "lowStock": "مخزون منخفض",
+      "outOfStock": "نفد المخزون",
+      "reserved": "محجوز"
+    },
+    "filters": {
+      "lowStock": "المخزون المنخفض فقط",
+      "outOfStock": "النافد فقط",
+      "location": "تصفية حسب الموقع"
+    },
+    "confirmDelete": "هل أنت متأكد من حذف سجل المخزون هذا؟",
+    "deleteWithReserved": "لا يمكن حذف المخزون مع وجود كميات محجوزة ({count} محجوز)",
+    "errors": {
+      "variantRequired": "متغير المنتج مطلوب",
+      "quantityRequired": "الكمية مطلوبة",
+      "invalidQuantity": "يجب أن تكون الكمية رقماً موجباً",
+      "reservedExceedsOnHand": "الكمية المحجوزة لا يمكن أن تتجاوز الكمية المتاحة",
+      "insufficientStock": "مخزون غير كافي لهذه العملية",
+      "inventoryNotFound": "سجل المخزون غير موجود",
+      "variantNotFound": "متغير المنتج غير موجود",
+      "createFailed": "فشل في إنشاء سجل المخزون",
+      "updateFailed": "فشل في تحديث سجل المخزون",
+      "deleteFailed": "فشل في حذف سجل المخزون",
+      "adjustmentFailed": "فشل في تعديل المخزون"
+    },
+    "warnings": {
+      "lowStock": "المخزون ينخفض",
+      "outOfStock": "المنتج نفد من المخزون",
+      "highReservation": "نسبة عالية من المخزون محجوزة"
+    },
+    "reports": {
+      "stockLevel": "تقرير مستوى المخزون",
+      "lowStockAlert": "تنبيه المخزون المنخفض",
+      "outOfStockAlert": "تنبيه نفاد المخزون",
+      "inventoryValuation": "تقييم المخزون"
+    }
   }
 }

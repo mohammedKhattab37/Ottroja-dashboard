@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +35,10 @@ export function CategoryModal({
   category,
   mode = "create",
 }: CategoryModalProps) {
+  const t = useTranslations('Categories');
+  const tCommon = useTranslations('Common');
+  const tValidation = useTranslations('Validation');
+  
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -53,7 +58,7 @@ export function CategoryModal({
     try {
       // Validate the data manually
       if (!data.name || !data.slug) {
-        toast.error("Name and slug are required");
+        toast.error(tValidation('required'));
         return;
       }
 
@@ -86,18 +91,18 @@ export function CategoryModal({
           throw new Error(errorMessages);
         }
 
-        throw new Error(error.error || `Failed to ${mode} category`);
+        throw new Error(error.error || t(`errors.${mode}Failed`));
       }
 
       toast.success(
-        `Category ${mode === "edit" ? "updated" : "created"} successfully`
+        mode === "edit" ? t('categoryUpdated') : t('categoryCreated')
       );
       form.reset();
       setIsOpen(false);
       onSuccess?.();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong"
+        error instanceof Error ? error.message : tCommon('error')
       );
     } finally {
       setIsLoading(false);
@@ -122,29 +127,29 @@ export function CategoryModal({
         {trigger || (
           <Button>
             <Plus className="mr-2 h-4 w-4" />
-            Add Category
+            {t('addCategory')}
           </Button>
         )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {mode === "edit" ? "Edit Category" : "Create Category"}
+            {mode === "edit" ? t('editCategory') : t('createCategory')}
           </DialogTitle>
           <DialogDescription>
             {mode === "edit"
-              ? "Update the category information."
-              : "Add a new category to organize your products."}
+              ? t('updateNote')
+              : t('createNote')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">{t('fields.name')}</Label>
             <Input
               id="name"
               {...form.register("name")}
               onChange={(e) => handleNameChange(e.target.value)}
-              placeholder="Category name"
+              placeholder={t('placeholders.name')}
             />
             {form.formState.errors.name && (
               <p className="text-sm text-red-600">
@@ -154,11 +159,11 @@ export function CategoryModal({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="slug">Slug</Label>
+            <Label htmlFor="slug">{t('fields.slug')}</Label>
             <Input
               id="slug"
               {...form.register("slug")}
-              placeholder="category-slug"
+              placeholder={t('placeholders.slug')}
               disabled={mode === "edit"} // Don't allow editing slug
             />
             {form.formState.errors.slug && (
@@ -169,11 +174,11 @@ export function CategoryModal({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">{t('fields.description')}</Label>
             <Textarea
               id="description"
               {...form.register("description")}
-              placeholder="Category description (optional)"
+              placeholder={t('placeholders.description')}
               rows={3}
             />
             {form.formState.errors.description && (
@@ -184,11 +189,11 @@ export function CategoryModal({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="imageUrl">Image URL</Label>
+            <Label htmlFor="imageUrl">{t('fields.imageUrl')}</Label>
             <Input
               id="imageUrl"
               {...form.register("imageUrl")}
-              placeholder="https://example.com/image.jpg (optional)"
+              placeholder={t('placeholders.imageUrl')}
               type="url"
             />
             {form.formState.errors.imageUrl && (
@@ -199,7 +204,7 @@ export function CategoryModal({
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="sortOrder">Sort Order</Label>
+            <Label htmlFor="sortOrder">{t('fields.sortOrder')}</Label>
             <Input
               id="sortOrder"
               {...form.register("sortOrder", { valueAsNumber: true })}
@@ -222,7 +227,7 @@ export function CategoryModal({
                 form.setValue("isActive", checked)
               }
             />
-            <Label htmlFor="isActive">Active</Label>
+            <Label htmlFor="isActive">{t('fields.isActive')}</Label>
           </div>
 
           <DialogFooter>
@@ -232,12 +237,12 @@ export function CategoryModal({
               onClick={() => setIsOpen(false)}
               disabled={isLoading}
             >
-              Cancel
+              {tCommon('cancel')}
             </Button>
             <Button type="submit" disabled={isLoading}>
               {isLoading
-                ? `${mode === "edit" ? "Updating" : "Creating"}...`
-                : `${mode === "edit" ? "Update" : "Create"} Category`}
+                ? (mode === "edit" ? tCommon('updating') : tCommon('creating'))
+                : (mode === "edit" ? tCommon('edit') : tCommon('create'))}
             </Button>
           </DialogFooter>
         </form>
@@ -257,6 +262,9 @@ export function DeleteCategoryModal({
   onSuccess,
   trigger,
 }: DeleteCategoryModalProps) {
+  const t = useTranslations('Categories');
+  const tCommon = useTranslations('Common');
+  
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -269,15 +277,15 @@ export function DeleteCategoryModal({
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || "Failed to delete category");
+        throw new Error(error.error || t('errors.deleteFailed'));
       }
 
-      toast.success("Category deleted successfully");
+      toast.success(t('categoryDeleted'));
       setIsOpen(false);
       onSuccess?.();
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Failed to delete category"
+        error instanceof Error ? error.message : t('errors.deleteFailed')
       );
     } finally {
       setIsLoading(false);
@@ -289,10 +297,9 @@ export function DeleteCategoryModal({
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Delete Category</DialogTitle>
+          <DialogTitle>{t('deleteCategory')}</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete "{category.name}"? This action
-            cannot be undone.
+            {t('confirmDelete', { name: category.name })}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -302,7 +309,7 @@ export function DeleteCategoryModal({
             onClick={() => setIsOpen(false)}
             disabled={isLoading}
           >
-            Cancel
+            {tCommon('cancel')}
           </Button>
           <Button
             type="button"
@@ -310,7 +317,7 @@ export function DeleteCategoryModal({
             onClick={handleDelete}
             disabled={isLoading}
           >
-            {isLoading ? "Deleting..." : "Delete Category"}
+            {isLoading ? tCommon('deleting') : t('deleteCategory')}
           </Button>
         </DialogFooter>
       </DialogContent>

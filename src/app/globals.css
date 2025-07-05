@@ -169,4 +169,87 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Arabic font for RTL */
+  [dir="rtl"] * {
+    font-family: "Noto Sans Arabic", sans-serif;
+  }
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  .text-left {
+    text-align: right;
+  }
+  .text-right {
+    text-align: left;
+  }
+
+  .mr-2 {
+    margin-right: 0;
+    margin-left: 0.5rem;
+  }
+
+  .ml-2 {
+    margin-left: 0;
+    margin-right: 0.5rem;
+  }
+
+  .mr-4 {
+    margin-right: 0;
+    margin-left: 1rem;
+  }
+
+  .ml-4 {
+    margin-left: 0;
+    margin-right: 1rem;
+  }
+
+  .ml-auto {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .mr-auto {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  .pl-2 {
+    padding-left: 0;
+    padding-right: 0.5rem;
+  }
+
+  .pr-2 {
+    padding-right: 0;
+    padding-left: 0.5rem;
+  }
+
+  .pl-4 {
+    padding-left: 0;
+    padding-right: 1rem;
+  }
+
+  .pr-4 {
+    padding-right: 0;
+    padding-left: 1rem;
+  }
+}
+
+/* RTL Layout Support */
+[dir="rtl"] {
+  /* Text direction and alignment */
+  body {
+    text-align: right;
+  }
+  
+  /* Fix flex row layouts for RTL */
+  .flex-row {
+    flex-direction: row-reverse;
+  }
+  
+  /* Ensure proper RTL text flow */
+  p, span, div, h1, h2, h3, h4, h5, h6 {
+    text-align: inherit;
+  }
 }

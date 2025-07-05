@@ -25,7 +25,13 @@ export default async function AuthLayout({
   }
 
   return (
-    <html lang={locale}>
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <head>
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" 
+          rel="stylesheet" 
+        />
+      </head>
       <body>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
         <Toaster richColors />

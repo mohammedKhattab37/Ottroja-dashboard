@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/sidebar";
 import { getCurrentUser } from "@/hooks/auth/getCurrentUser";
 import { BreadcrumbNav } from "@/components/breadcrumb-nav";
+import { LocaleSwitcher } from "@/components/locale-switcher";
 
 export const metadata: Metadata = {
   title: "Ottroja Dashboard",
@@ -36,7 +37,13 @@ export default async function DashboardLayout({
   await getCurrentUser();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+      <head>
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" 
+          rel="stylesheet" 
+        />
+      </head>
       <body>
         <NextIntlClientProvider>
           <SidebarProvider>
@@ -50,6 +57,9 @@ export default async function DashboardLayout({
                     className="mr-2 data-[orientation=vertical]:h-4"
                   />
                   <BreadcrumbNav />
+                </div>
+                <div className="ml-auto px-4">
+                  <LocaleSwitcher />
                 </div>
               </header>
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0">

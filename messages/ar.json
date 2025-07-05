@@ -41,5 +41,358 @@
       },
       "success": "تم تسجيل الدخول بنجاح"
     }
+  },
+  "Common": {
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "saving": "جاري الحفظ...",
+    "delete": "حذف",
+    "deleting": "جاري الحذف...",
+    "edit": "تعديل",
+    "create": "إنشاء",
+    "creating": "جاري الإنشاء...",
+    "updating": "جاري التحديث...",
+    "actions": "الإجراءات",
+    "search": "بحث",
+    "filter": "تصفية",
+    "sort": "ترتيب",
+    "reset": "إعادة تعيين",
+    "confirm": "تأكيد",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "loading": "جاري التحميل...",
+    "noData": "لا توجد بيانات متاحة",
+    "error": "حدث خطأ",
+    "success": "تمت العملية بنجاح",
+    "required": "هذا الحقل مطلوب",
+    "optional": "اختياري",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "phone": "الهاتف",
+    "address": "العنوان",
+    "description": "الوصف",
+    "status": "الحالة",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "enabled": "مفعل",
+    "disabled": "معطل",
+    "yes": "نعم",
+    "no": "لا",
+    "all": "الكل",
+    "none": "لا شيء",
+    "other": "أخرى",
+    "unknown": "غير معروف",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "dateTime": "التاريخ والوقت",
+    "createdAt": "تاريخ الإنشاء",
+    "updatedAt": "تاريخ التحديث",
+    "language": "اللغة",
+    "switchLanguage": "تغيير اللغة",
+    "refresh": "تحديث"
+  },
+  "Navigation": {
+    "dashboard": "لوحة التحكم",
+    "catalog": "الكتالوج",
+    "products": "المنتجات",
+    "categories": "التصنيفات",
+    "orders": "الطلبات",
+    "customers": "العملاء",
+    "settings": "الإعدادات",
+    "general": "عام",
+    "store": "المتجر",
+    "users": "المستخدمين",
+    "support": "الدعم",
+    "feedback": "التعليقات",
+    "profile": "الملف الشخصي",
+    "logout": "تسجيل الخروج",
+    "storeTitle": "متجر عطروجة",
+    "dashboardSubtitle": "لوحة التحكم"
+  },
+  "Dashboard": {
+    "welcome": "أهلاً بك في لوحة التحكم",
+    "overview": "نظرة عامة",
+    "analytics": "التحليلات",
+    "recentActivity": "النشاط الأخير",
+    "quickActions": "الإجراءات السريعة"
+  },
+  "Categories": {
+    "title": "التصنيفات",
+    "description": "إدارة تصنيفات المنتجات",
+    "addCategory": "إضافة تصنيف",
+    "editCategory": "تعديل التصنيف",
+    "createCategory": "إنشاء تصنيف",
+    "deleteCategory": "حذف التصنيف",
+    "categoryCreated": "تم إنشاء التصنيف بنجاح",
+    "categoryUpdated": "تم تحديث التصنيف بنجاح",
+    "categoryDeleted": "تم حذف التصنيف بنجاح",
+    "fields": {
+      "name": "اسم التصنيف",
+      "slug": "الرابط",
+      "description": "الوصف",
+      "imageUrl": "رابط الصورة",
+      "parentId": "التصنيف الأب",
+      "isActive": "نشط",
+      "sortOrder": "ترتيب العرض"
+    },
+    "placeholders": {
+      "name": "اسم التصنيف",
+      "slug": "رابط-التصنيف",
+      "description": "وصف التصنيف (اختياري)",
+      "imageUrl": "https://example.com/image.jpg (اختياري)"
+    },
+    "confirmDelete": "هل أنت متأكد من حذف \"{name}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+    "createNote": "إضافة تصنيف جديد لتنظيم المنتجات.",
+    "updateNote": "تحديث معلومات التصنيف.",
+    "errors": {
+      "nameRequired": "اسم التصنيف مطلوب",
+      "slugRequired": "رابط التصنيف مطلوب",
+      "invalidUrl": "رابط الصورة غير صحيح",
+      "deleteFailed": "فشل في حذف التصنيف",
+      "createFailed": "فشل في إنشاء التصنيف",
+      "updateFailed": "فشل في تحديث التصنيف"
+    },
+    "table": {
+      "columns": {
+        "name": "الاسم",
+        "description": "الوصف",
+        "status": "الحالة",
+        "sortOrder": "ترتيب العرض",
+        "createdAt": "تاريخ الإنشاء"
+      },
+      "actions": {
+        "copyId": "نسخ معرف التصنيف",
+        "edit": "تعديل",
+        "delete": "حذف"
+      }
+    }
+  },
+  "Products": {
+    "title": "المنتجات",
+    "description": "إدارة المنتجات والمخزون",
+    "addProduct": "إضافة منتج",
+    "editProduct": "تعديل المنتج",
+    "createProduct": "إنشاء منتج",
+    "deleteProduct": "حذف المنتج",
+    "productCreated": "تم إنشاء المنتج بنجاح",
+    "productUpdated": "تم تحديث المنتج بنجاح",
+    "productDeleted": "تم حذف المنتج بنجاح",
+    "fields": {
+      "nameEn": "الاسم بالإنجليزية",
+      "nameAr": "الاسم بالعربية",
+      "slug": "الرابط",
+      "descriptionEn": "الوصف بالإنجليزية",
+      "descriptionAr": "الوصف بالعربية",
+      "shortDescriptionEn": "الوصف المختصر بالإنجليزية",
+      "shortDescriptionAr": "الوصف المختصر بالعربية",
+      "briefTitleEn": "العنوان الموجز بالإنجليزية",
+      "briefTitleAr": "العنوان الموجز بالعربية",
+      "briefTextEn": "النص الموجز بالإنجليزية",
+      "briefTextAr": "النص الموجز بالعربية",
+      "warningsEn": "التحذيرات بالإنجليزية",
+      "warningsAr": "التحذيرات بالعربية",
+      "benefitsEn": "الفوائد بالإنجليزية",
+      "benefitsAr": "الفوائد بالعربية",
+      "ingredientsEn": "المكونات بالإنجليزية",
+      "ingredientsAr": "المكونات بالعربية",
+      "baseSku": "رمز المنتج الأساسي",
+      "basePrice": "السعر الأساسي",
+      "imageUrl": "رابط الصورة",
+      "categoryId": "التصنيف",
+      "isActive": "نشط",
+      "isFeatured": "مميز"
+    },
+    "table": {
+      "columns": {
+        "name": "الاسم",
+        "category": "التصنيف",
+        "price": "السعر",
+        "status": "الحالة",
+        "featured": "مميز",
+        "createdAt": "تاريخ الإنشاء"
+      }
+    }
+  },
+  "Users": {
+    "title": "المستخدمين",
+    "description": "إدارة المستخدمين وأدوارهم",
+    "addUser": "إضافة مستخدم",
+    "editUser": "تعديل المستخدم",
+    "createUser": "إنشاء مستخدم",
+    "deleteUser": "حذف المستخدم",
+    "userCreated": "تم إنشاء المستخدم بنجاح",
+    "userUpdated": "تم تحديث المستخدم بنجاح",
+    "userDeleted": "تم حذف المستخدم بنجاح",
+    "fields": {
+      "name": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "role": "دور المستخدم",
+      "emailVerified": "البريد مفعل",
+      "image": "رابط صورة الملف الشخصي"
+    },
+    "roles": {
+      "admin": "مدير",
+      "designer": "مصمم",
+      "marketer": "مسوق",
+      "customer": "عميل"
+    },
+    "placeholders": {
+      "name": "اسم المستخدم",
+      "email": "user@example.com",
+      "image": "https://example.com/image.jpg (اختياري)"
+    },
+    "passwordNote": "المستخدمون الذين تم إنشاؤهم من خلال لوحة الإدارة سيحتاجون إلى تعيين كلمة مرورهم من خلال تدفق المصادقة (نسيان كلمة المرور أو التحقق من البريد الإلكتروني).",
+    "table": {
+      "columns": {
+        "name": "الاسم",
+        "email": "البريد الإلكتروني",
+        "role": "الدور",
+        "emailVerified": "البريد مفعل",
+        "createdAt": "تاريخ الإنشاء"
+      },
+      "actions": {
+        "copyId": "نسخ معرف المستخدم",
+        "copyEmail": "نسخ البريد الإلكتروني",
+        "edit": "تعديل",
+        "delete": "حذف"
+      }
+    },
+    "verification": {
+      "verified": "مفعل",
+      "unverified": "غير مفعل"
+    }
+  },
+  "Customers": {
+    "title": "العملاء",
+    "description": "إدارة ملفات العملاء وعرض تحليلاتهم",
+    "addCustomer": "إضافة عميل",
+    "editCustomer": "تعديل العميل",
+    "createCustomer": "إنشاء ملف عميل",
+    "deleteCustomer": "حذف العميل",
+    "customerCreated": "تم إنشاء العميل بنجاح",
+    "customerUpdated": "تم تحديث العميل بنجاح",
+    "customerDeleted": "تم حذف العميل بنجاح",
+    "fields": {
+      "userId": "اختيار المستخدم",
+      "dateOfBirth": "تاريخ الميلاد",
+      "gender": "الجنس",
+      "lastLogin": "آخر تسجيل دخول",
+      "totalOrders": "إجمالي الطلبات",
+      "totalSpent": "إجمالي المبلغ المنفق"
+    },
+    "gender": {
+      "male": "ذكر",
+      "female": "أنثى",
+      "other": "أخرى",
+      "preferNotToSay": "أفضل عدم الإفصاح",
+      "notSpecified": "غير محدد"
+    },
+    "placeholders": {
+      "selectUser": "اختر مستخدم عميل",
+      "dateOfBirth": "YYYY-MM-DD",
+      "gender": "اختر الجنس (اختياري)"
+    },
+    "table": {
+      "columns": {
+        "customer": "العميل",
+        "gender": "الجنس",
+        "totalOrders": "إجمالي الطلبات",
+        "totalSpent": "إجمالي المبلغ المنفق",
+        "lastLogin": "آخر تسجيل دخول",
+        "joined": "تاريخ الانضمام"
+      },
+      "actions": {
+        "copyId": "نسخ معرف العميل",
+        "copyEmail": "نسخ البريد الإلكتروني",
+        "edit": "تعديل",
+        "delete": "حذف"
+      }
+    },
+    "confirmDelete": "هل أنت متأكد من حذف ملف العميل لـ \"{name}\"؟",
+    "deleteWithOrders": "لا يمكن حذف عميل لديه تاريخ طلبات ({count} طلبات). فكر في إخفاء البيانات بدلاً من ذلك للامتثال لقانون حماية البيانات العامة.",
+    "metricsNote": "يتم حساب مقاييس الطلبات تلقائياً",
+    "createNote": "إنشاء ملف عميل لمستخدم موجود.",
+    "updateNote": "تحديث معلومات ملف العميل.",
+    "lastLoginNever": "لم يسجل دخول",
+    "loadingUsers": "جاري تحميل المستخدمين..."
+  },
+  "DataTable": {
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "صفحة",
+      "of": "من",
+      "rows": "صفوف",
+      "rowsPerPage": "صفوف لكل صفحة",
+      "goToFirstPage": "انتقل للصفحة الأولى",
+      "goToPreviousPage": "انتقل للصفحة السابقة",
+      "goToNextPage": "انتقل للصفحة التالية",
+      "goToLastPage": "انتقل للصفحة الأخيرة"
+    },
+    "toolbar": {
+      "search": "بحث",
+      "filter": "تصفية",
+      "columns": "الأعمدة",
+      "export": "تصدير",
+      "reset": "إعادة تعيين",
+      "selectedRows": "تم تحديد {count} صف"
+    },
+    "filters": {
+      "clearFilters": "مسح التصفيات",
+      "hideFilters": "إخفاء التصفيات",
+      "showFilters": "إظهار التصفيات"
+    },
+    "sorting": {
+      "sortBy": "ترتيب حسب",
+      "ascending": "تصاعدي",
+      "descending": "تنازلي",
+      "unsorted": "غير مرتب"
+    },
+    "columnToggle": {
+      "toggleColumns": "تبديل الأعمدة",
+      "hideAll": "إخفاء الكل",
+      "showAll": "إظهار الكل"
+    },
+    "noResults": "لم يتم العثور على نتائج",
+    "loading": "جاري تحميل البيانات..."
+  },
+  "Modals": {
+    "close": "إغلاق",
+    "confirm": "تأكيد",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "create": "إنشاء",
+    "update": "تحديث",
+    "confirmAction": "هل أنت متأكد؟",
+    "unsavedChanges": "لديك تغييرات غير محفوظة. هل أنت متأكد من المغادرة؟",
+    "deleteConfirmation": "لا يمكن التراجع عن هذا الإجراء."
+  },
+  "Validation": {
+    "required": "هذا الحقل مطلوب",
+    "email": "يرجى إدخال عنوان بريد إلكتروني صحيح",
+    "minLength": "يجب أن يكون {min} أحرف على الأقل",
+    "maxLength": "يجب ألا يزيد عن {max} حرف",
+    "invalidUrl": "يرجى إدخال رابط صحيح",
+    "invalidDate": "يرجى إدخال تاريخ صحيح",
+    "invalidNumber": "يرجى إدخال رقم صحيح",
+    "passwordMismatch": "كلمات المرور غير متطابقة",
+    "invalidFormat": "تنسيق غير صحيح"
+  },
+  "Messages": {
+    "success": "تمت العملية بنجاح",
+    "error": "حدث خطأ",
+    "warning": "تحذير",
+    "info": "معلومة",
+    "confirmDelete": "هل أنت متأكد من حذف هذا العنصر؟",
+    "itemDeleted": "تم حذف العنصر بنجاح",
+    "itemCreated": "تم إنشاء العنصر بنجاح",
+    "itemUpdated": "تم تحديث العنصر بنجاح",
+    "noDataFound": "لم يتم العثور على بيانات",
+    "loadingData": "جاري تحميل البيانات...",
+    "operationFailed": "فشلت العملية",
+    "unauthorizedAccess": "وصول غير مسموح",
+    "sessionExpired": "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى."
   }
 }

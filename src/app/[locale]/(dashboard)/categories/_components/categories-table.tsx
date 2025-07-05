@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { type ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { MoreHorizontal, Edit, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -34,12 +35,16 @@ export function CategoriesTable({
   onRefresh?: () => void;
   pageCount: number;
 }) {
+  const t = useTranslations('Categories');
+  const tCommon = useTranslations('Common');
+  const tTable = useTranslations('Categories.table');
+  
   const columns = useMemo<ColumnDef<Category>[]>(
     () => [
       {
         accessorKey: "name",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Name" />
+          <DataTableColumnHeader column={column} title={tTable('columns.name')} />
         ),
         cell: ({ row }) => {
           const category = row.original;
@@ -62,14 +67,14 @@ export function CategoriesTable({
           );
         },
         meta: {
-          label: "Name",
+          label: tTable('columns.name'),
           variant: "text",
         },
       },
       {
         accessorKey: "description",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Description" />
+          <DataTableColumnHeader column={column} title={tTable('columns.description')} />
         ),
         cell: ({ row }) => {
           const description = row.getValue("description") as string | null;
@@ -90,13 +95,13 @@ export function CategoriesTable({
       {
         accessorKey: "isActive",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Status" />
+          <DataTableColumnHeader column={column} title={tTable('columns.status')} />
         ),
         cell: ({ row }) => {
           const isActive = row.getValue("isActive") as boolean;
           return (
             <Badge variant={isActive ? "default" : "secondary"}>
-              {isActive ? "Active" : "Inactive"}
+              {isActive ? tCommon('active') : tCommon('inactive')}
             </Badge>
           );
         },
@@ -106,18 +111,18 @@ export function CategoriesTable({
           return value.includes(String(isActive));
         },
         meta: {
-          label: "Status",
+          label: tTable('columns.status'),
           variant: "select",
           options: [
-            { label: "Active", value: "true" },
-            { label: "Inactive", value: "false" },
+            { label: tCommon('active'), value: "true" },
+            { label: tCommon('inactive'), value: "false" },
           ],
         },
       },
       {
         accessorKey: "sortOrder",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Sort Order" />
+          <DataTableColumnHeader column={column} title={tTable('columns.sortOrder')} />
         ),
         cell: ({ row }) => {
           const sortOrder = row.getValue("sortOrder") as number;
@@ -133,14 +138,14 @@ export function CategoriesTable({
           return true;
         },
         meta: {
-          label: "Sort Order",
+          label: tTable('columns.sortOrder'),
           variant: "range",
         },
       },
       {
         accessorKey: "createdAt",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Created At" />
+          <DataTableColumnHeader column={column} title={tTable('columns.createdAt')} />
         ),
         cell: ({ row }) => {
           const date = new Date(row.getValue("createdAt") as string);
@@ -156,7 +161,7 @@ export function CategoriesTable({
           return true;
         },
         meta: {
-          label: "Created At",
+          label: tTable('columns.createdAt'),
           variant: "date",
         },
       },
@@ -169,16 +174,16 @@ export function CategoriesTable({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
+                  <span className="sr-only">{tCommon('actions')}</span>
                   <MoreHorizontal className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuLabel>{tCommon('actions')}</DropdownMenuLabel>
                 <DropdownMenuItem
                   onClick={() => navigator.clipboard.writeText(category.id)}
                 >
-                  Copy category ID
+                  {tTable('actions.copyId')}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <CategoryModal
@@ -188,7 +193,7 @@ export function CategoriesTable({
                   trigger={
                     <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                       <Edit className="mr-2 h-4 w-4" />
-                      Edit
+                      {tTable('actions.edit')}
                     </DropdownMenuItem>
                   }
                 />
@@ -201,7 +206,7 @@ export function CategoriesTable({
                       className="text-red-600"
                     >
                       <Trash2 className="mr-2 h-4 w-4" />
-                      Delete
+                      {tTable('actions.delete')}
                     </DropdownMenuItem>
                   }
                 />
@@ -211,7 +216,7 @@ export function CategoriesTable({
         },
       },
     ],
-    [onRefresh]
+    [onRefresh, t, tCommon, tTable]
   );
 
   const { table } = useDataTable({

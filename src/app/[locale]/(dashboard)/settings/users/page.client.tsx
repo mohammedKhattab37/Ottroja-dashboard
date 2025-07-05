@@ -3,6 +3,7 @@
 import { useCallback, useEffect } from "react";
 import { Plus } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { UsersTable } from "./_components/users-table";
@@ -18,6 +19,7 @@ export function UsersPageClient({
   pageCount: number;
   total: number;
 }) {
+  const t = useTranslations('Users');
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -39,9 +41,9 @@ export function UsersPageClient({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Users</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
           <p className="text-muted-foreground">
-            Manage your users and their roles
+            {t('description')}
           </p>
         </div>
         <UserModal
@@ -49,7 +51,7 @@ export function UsersPageClient({
           trigger={
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              Add User
+              {t('addUser')}
             </Button>
           }
         />

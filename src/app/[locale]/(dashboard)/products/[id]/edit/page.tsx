@@ -7,9 +7,9 @@ import { getCategories } from "../../../categories/_actions/getCategories";
 export const dynamic = "force-dynamic";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 async function getProduct(id: string) {
@@ -39,8 +39,9 @@ async function getProduct(id: string) {
 }
 
 export default async function ProductEditPage({ params }: PageProps) {
+  const resolvedParams = await params;
   const [product, categoriesData] = await Promise.all([
-    getProduct(params.id),
+    getProduct(resolvedParams.id),
     getCategories({ page: 1, perPage: 1000 }),
   ]);
 

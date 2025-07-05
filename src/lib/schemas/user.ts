@@ -21,22 +21,13 @@ export const userSchema = z.object({
       message: "Invalid image URL",
     }),
   role: userRoleSchema.default("CUSTOMER"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .optional(),
 });
 
-export const createUserSchema = userSchema.omit({ id: true }).extend({
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters"),
-});
+export const createUserSchema = userSchema.omit({ id: true });
 
 export const updateUserSchema = userSchema
   .partial()
-  .required({ id: true })
-  .omit({ password: true });
+  .required({ id: true });
 
 export type User = z.infer<typeof userSchema>;
 export type CreateUserInput = z.infer<typeof createUserSchema>;

@@ -47,8 +47,7 @@ export function UserModal({
     defaultValues: {
       name: user?.name || "",
       email: user?.email || "",
-      password: "",
-      role: user?.role || "CUSTOMER",
+        role: user?.role || "CUSTOMER",
       emailVerified: user?.emailVerified ?? false,
       image: user?.image || "",
     },
@@ -63,18 +62,13 @@ export function UserModal({
         return;
       }
 
-      // For create mode, password is required
-      if (mode === "create" && !data.password) {
-        toast.error("Password is required");
-        return;
-      }
+      // Note: Users created through admin panel don't require passwords initially
+      // They can use the "forgot password" flow to set their password
 
       // Transform empty image to undefined
       const submitData = {
         ...data,
         image: data.image === "" ? undefined : data.image,
-        // Don't include password for edit mode
-        ...(mode === "edit" && { password: undefined }),
       };
 
       const url = mode === "edit" ? `/api/users/${user?.id}` : "/api/users";
@@ -170,21 +164,12 @@ export function UserModal({
 
           {mode === "create" && (
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                {...form.register("password")}
-                placeholder="Password (minimum 8 characters)"
-                type="password"
-              />
-              {form.formState.errors.password && (
-                <p className="text-sm text-red-600">
-                  {form.formState.errors.password.message}
+              <div className="rounded-md bg-muted p-3">
+                <p className="text-sm text-muted-foreground">
+                  <strong>Note:</strong> Users created through the admin panel will need to set their password 
+                  through the authentication flow (forgot password or email verification).
                 </p>
-              )}
-              <p className="text-xs text-muted-foreground">
-                Password will be securely hashed before storage
-              </p>
+              </div>
             </div>
           )}
 

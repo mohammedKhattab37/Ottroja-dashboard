@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getUsers } from "@/app/[locale]/(dashboard)/settings/users/_actions/getUsers";
 import { createUserSchema } from "@/lib/schemas/user";
 import { prisma } from "@/lib/prisma";
-import { hash } from "bcryptjs";
+import { createCustomerProfileForUser } from "@/lib/customer-utils";
 
 export async function GET(request: NextRequest) {
   try {
@@ -43,11 +43,6 @@ export async function POST(request: NextRequest) {
     // Validate the request body
     const validatedData = createUserSchema.parse(body);
 
-    // Hash password if provided
-    if (validatedData.password) {
-      validatedData.password = await hash(validatedData.password, 12);
-    }
-
     // Generate user ID
     const userId = crypto.randomUUID();
 
@@ -60,6 +55,16 @@ export async function POST(request: NextRequest) {
         ...validatedData,
       },
     });
+
+    // Automatically create customer profile if user role is CUSTOMER
+    if (validatedData.role === "CUSTOMER") {
+      try {
+        await createCustomerProfileForUser(userId);
+      } catch (customerError) {
+        console.error("Failed to create customer profile:", customerError);
+        // Don't fail the user creation if customer profile creation fails
+      }
+    }
 
     // Remove password from response
     const { password, ...userWithoutPassword } = user as any;

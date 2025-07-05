@@ -99,5 +99,62 @@ model Category {
   isActive    Boolean @default(true)
   sortOrder   Int     @default(0) 
 
+  products Product[]
+
   @@map("categories")
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name_en              String
+  name_ar              String
+  slug                 String  @unique
+  description_en       String?
+  description_ar       String?
+  short_description_en String?
+  short_description_ar String?
+  brief_title_en       String?
+  brief_title_ar       String?
+  brief_text_en        String?
+  brief_text_ar        String?
+  warnings_en          String[] // JSON array stored as string array
+  warnings_ar          String[] // JSON array stored as string array
+  benefits_en          String[] // JSON array stored as string array
+  benefits_ar          String[] // JSON array stored as string array
+  ingredients_en       String[] // JSON array stored as string array
+  ingredients_ar       String[] // JSON array stored as string array
+  baseSku              String
+  basePrice            Float
+  imageUrl             String?
+  isActive             Boolean @default(true)
+  isFeatured           Boolean @default(false)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  variants ProductVariant[]
+
+  @@map("products")
+}
+
+model ProductVariant {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  sku               String  @unique
+  variant_name_en   String
+  variant_name_ar   String
+  weight_volume     Float
+  unit              String
+  price             Float
+  compare_at_price  Float?
+  barcode           String?
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_variants")
 }

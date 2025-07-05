@@ -13,6 +13,11 @@ import {
   Settings2,
   SquareTerminal,
   ShoppingBag,
+  Package,
+  Tags,
+  BarChart3,
+  Users,
+  ShoppingCart,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -33,66 +38,35 @@ import { useCurrentUser } from "@/hooks/auth/use-current-user";
 const data = {
   navMain: [
     {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
+      title: "Dashboard",
+      url: "/",
+      icon: BarChart3,
       isActive: true,
+    },
+    {
+      title: "Catalog",
+      url: "#",
+      icon: Package,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Products",
+          url: "/products",
         },
         {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
+          title: "Categories",
+          url: "/categories",
         },
       ],
     },
     {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      title: "Orders",
+      url: "/orders",
+      icon: ShoppingCart,
     },
     {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      title: "Customers",
+      url: "/customers",
+      icon: Users,
     },
     {
       title: "Settings",
@@ -101,19 +75,15 @@ const data = {
       items: [
         {
           title: "General",
-          url: "#",
+          url: "/settings/general",
         },
         {
-          title: "Team",
-          url: "#",
+          title: "Store",
+          url: "/settings/store",
         },
         {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
+          title: "Users",
+          url: "/settings/users",
         },
       ],
     },
@@ -130,23 +100,7 @@ const data = {
       icon: Send,
     },
   ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
+  projects: [],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

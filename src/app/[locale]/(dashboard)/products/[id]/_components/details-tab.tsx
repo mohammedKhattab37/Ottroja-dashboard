@@ -149,12 +149,21 @@ export function DetailsTab({ product }: DetailsTabProps) {
         </div>
         <div className="flex flex-wrap gap-2">
           {items.map((item, index) => (
-            <Badge key={index} variant="secondary" className="gap-1">
-              {item}
-              <X
-                className="h-3 w-3 cursor-pointer"
-                onClick={() => removeArrayItem(fieldName, index)}
-              />
+            <Badge key={index} variant="secondary" className="gap-1 pr-1">
+              <span>{item}</span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="h-auto w-auto p-0 hover:bg-transparent"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  removeArrayItem(fieldName, index);
+                }}
+              >
+                <X className="h-3 w-3 cursor-pointer hover:text-destructive" />
+              </Button>
             </Badge>
           ))}
         </div>

@@ -19,6 +19,7 @@ import {
   Users,
   ShoppingCart,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
@@ -34,80 +35,91 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useCurrentUser } from "@/hooks/auth/use-current-user";
+import { useLocale } from "next-intl";
 
-const data = {
-  navMain: [
-    {
-      title: "Dashboard",
-      url: "/",
-      icon: BarChart3,
-      isActive: true,
-    },
-    {
-      title: "Catalog",
-      url: "#",
-      icon: Package,
-      items: [
-        {
-          title: "Products",
-          url: "/products",
-        },
-        {
-          title: "Categories",
-          url: "/categories",
-        },
-      ],
-    },
-    {
-      title: "Orders",
-      url: "/orders",
-      icon: ShoppingCart,
-    },
-    {
-      title: "Customers",
-      url: "/customers",
-      icon: Users,
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "/settings/general",
-        },
-        {
-          title: "Store",
-          url: "/settings/store",
-        },
-        {
-          title: "Users",
-          url: "/settings/users",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
-    },
-  ],
-  projects: [],
-};
+function useNavigationData() {
+  const t = useTranslations('Navigation');
+  
+  return {
+    navMain: [
+      {
+        title: t('dashboard'),
+        url: "/",
+        icon: BarChart3,
+        isActive: true,
+      },
+      {
+        title: t('catalog'),
+        url: "#",
+        icon: Package,
+        items: [
+          {
+            title: t('products'),
+            url: "/products",
+          },
+          {
+            title: t('categories'),
+            url: "/categories",
+          },
+        ],
+      },
+      {
+        title: t('orders'),
+        url: "/orders",
+        icon: ShoppingCart,
+      },
+      {
+        title: t('customers'),
+        url: "/customers",
+        icon: Users,
+      },
+      {
+        title: t('settings'),
+        url: "#",
+        icon: Settings2,
+        items: [
+          {
+            title: t('general'),
+            url: "/settings/general",
+          },
+          {
+            title: t('store'),
+            url: "/settings/store",
+          },
+          {
+            title: t('users'),
+            url: "/settings/users",
+          },
+        ],
+      },
+    ],
+    navSecondary: [
+      {
+        title: t('support'),
+        url: "#",
+        icon: LifeBuoy,
+      },
+      {
+        title: t('feedback'),
+        url: "#",
+        icon: Send,
+      },
+    ],
+    projects: [],
+  };
+}
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const locale = useLocale();
   const { user } = useCurrentUser();
+  const data = useNavigationData();
+  const t = useTranslations('Navigation');
+  
+  // Set sidebar side based on locale (RTL for Arabic)
+  const sidebarSide = locale === 'ar' ? 'right' : 'left';
 
   return (
-    <Sidebar variant="inset" {...props}>
+    <Sidebar variant="inset" side={sidebarSide} {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -117,8 +129,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <ShoppingBag className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">Ottroja Store</span>
-                  <span className="truncate text-xs">Dashboard</span>
+                  <span className="truncate font-medium">{t('storeTitle')}</span>
+                  <span className="truncate text-xs">{t('dashboardSubtitle')}</span>
                 </div>
               </a>
             </SidebarMenuButton>

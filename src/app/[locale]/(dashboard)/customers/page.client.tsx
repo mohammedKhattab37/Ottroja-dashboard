@@ -3,6 +3,7 @@
 import { useCallback, useEffect } from "react";
 import { Plus } from "lucide-react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { CustomersTable } from "./_components/customers-table";
@@ -37,6 +38,7 @@ export function CustomersPageClient({
   pageCount: number;
   total: number;
 }) {
+  const t = useTranslations('Customers');
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -58,9 +60,9 @@ export function CustomersPageClient({
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Customers</h1>
+          <h1 className="text-2xl font-bold tracking-tight">{t('title')}</h1>
           <p className="text-muted-foreground">
-            Manage customer profiles and view their analytics
+            {t('description')}
           </p>
         </div>
         <CustomerModal
@@ -68,7 +70,7 @@ export function CustomersPageClient({
           trigger={
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              Add Customer
+              {t('addCustomer')}
             </Button>
           }
         />

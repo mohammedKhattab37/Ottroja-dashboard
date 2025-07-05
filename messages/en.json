@@ -41,5 +41,358 @@
       },
       "success": "Signed in successfully"
     }
+  },
+  "Common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "edit": "Edit",
+    "create": "Create",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "actions": "Actions",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "reset": "Reset",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading...",
+    "noData": "No data available",
+    "error": "Error occurred",
+    "success": "Operation completed successfully",
+    "required": "This field is required",
+    "optional": "Optional",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "description": "Description",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "yes": "Yes",
+    "no": "No",
+    "all": "All",
+    "none": "None",
+    "other": "Other",
+    "unknown": "Unknown",
+    "date": "Date",
+    "time": "Time",
+    "dateTime": "Date & Time",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "language": "Language",
+    "switchLanguage": "Switch Language",
+    "refresh": "Refresh"
+  },
+  "Navigation": {
+    "dashboard": "Dashboard",
+    "catalog": "Catalog",
+    "products": "Products",
+    "categories": "Categories",
+    "orders": "Orders",
+    "customers": "Customers",
+    "settings": "Settings",
+    "general": "General",
+    "store": "Store",
+    "users": "Users",
+    "support": "Support",
+    "feedback": "Feedback",
+    "profile": "Profile",
+    "logout": "Logout",
+    "storeTitle": "Ottroja Store",
+    "dashboardSubtitle": "Dashboard"
+  },
+  "Dashboard": {
+    "welcome": "Welcome to Dashboard",
+    "overview": "Overview",
+    "analytics": "Analytics",
+    "recentActivity": "Recent Activity",
+    "quickActions": "Quick Actions"
+  },
+  "Categories": {
+    "title": "Categories",
+    "description": "Manage your product categories",
+    "addCategory": "Add Category",
+    "editCategory": "Edit Category",
+    "createCategory": "Create Category",
+    "deleteCategory": "Delete Category",
+    "categoryCreated": "Category created successfully",
+    "categoryUpdated": "Category updated successfully",
+    "categoryDeleted": "Category deleted successfully",
+    "fields": {
+      "name": "Category Name",
+      "slug": "Slug",
+      "description": "Description",
+      "imageUrl": "Image URL",
+      "parentId": "Parent Category",
+      "isActive": "Active",
+      "sortOrder": "Sort Order"
+    },
+    "placeholders": {
+      "name": "Category name",
+      "slug": "category-slug",
+      "description": "Category description (optional)",
+      "imageUrl": "https://example.com/image.jpg (optional)"
+    },
+    "confirmDelete": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+    "createNote": "Add a new category to organize your products.",
+    "updateNote": "Update the category information.",
+    "errors": {
+      "nameRequired": "Name is required",
+      "slugRequired": "Slug is required",
+      "invalidUrl": "Invalid image URL",
+      "deleteFailed": "Failed to delete category",
+      "createFailed": "Failed to create category",
+      "updateFailed": "Failed to update category"
+    },
+    "table": {
+      "columns": {
+        "name": "Name",
+        "description": "Description",
+        "status": "Status",
+        "sortOrder": "Sort Order",
+        "createdAt": "Created At"
+      },
+      "actions": {
+        "copyId": "Copy category ID",
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    }
+  },
+  "Products": {
+    "title": "Products",
+    "description": "Manage your products and inventory",
+    "addProduct": "Add Product",
+    "editProduct": "Edit Product",
+    "createProduct": "Create Product",
+    "deleteProduct": "Delete Product",
+    "productCreated": "Product created successfully",
+    "productUpdated": "Product updated successfully",
+    "productDeleted": "Product deleted successfully",
+    "fields": {
+      "nameEn": "English Name",
+      "nameAr": "Arabic Name",
+      "slug": "Slug",
+      "descriptionEn": "English Description",
+      "descriptionAr": "Arabic Description",
+      "shortDescriptionEn": "English Short Description",
+      "shortDescriptionAr": "Arabic Short Description",
+      "briefTitleEn": "English Brief Title",
+      "briefTitleAr": "Arabic Brief Title",
+      "briefTextEn": "English Brief Text",
+      "briefTextAr": "Arabic Brief Text",
+      "warningsEn": "English Warnings",
+      "warningsAr": "Arabic Warnings",
+      "benefitsEn": "English Benefits",
+      "benefitsAr": "Arabic Benefits",
+      "ingredientsEn": "English Ingredients",
+      "ingredientsAr": "Arabic Ingredients",
+      "baseSku": "Base SKU",
+      "basePrice": "Base Price",
+      "imageUrl": "Image URL",
+      "categoryId": "Category",
+      "isActive": "Active",
+      "isFeatured": "Featured"
+    },
+    "table": {
+      "columns": {
+        "name": "Name",
+        "category": "Category",
+        "price": "Price",
+        "status": "Status",
+        "featured": "Featured",
+        "createdAt": "Created At"
+      }
+    }
+  },
+  "Users": {
+    "title": "Users",
+    "description": "Manage your users and their roles",
+    "addUser": "Add User",
+    "editUser": "Edit User",
+    "createUser": "Create User",
+    "deleteUser": "Delete User",
+    "userCreated": "User created successfully",
+    "userUpdated": "User updated successfully",
+    "userDeleted": "User deleted successfully",
+    "fields": {
+      "name": "Full Name",
+      "email": "Email Address",
+      "role": "User Role",
+      "emailVerified": "Email Verified",
+      "image": "Profile Image URL"
+    },
+    "roles": {
+      "admin": "Admin",
+      "designer": "Designer",
+      "marketer": "Marketer",
+      "customer": "Customer"
+    },
+    "placeholders": {
+      "name": "User name",
+      "email": "user@example.com",
+      "image": "https://example.com/image.jpg (optional)"
+    },
+    "passwordNote": "Users created through the admin panel will need to set their password through the authentication flow (forgot password or email verification).",
+    "table": {
+      "columns": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "emailVerified": "Email Verified",
+        "createdAt": "Created At"
+      },
+      "actions": {
+        "copyId": "Copy user ID",
+        "copyEmail": "Copy email",
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    },
+    "verification": {
+      "verified": "Verified",
+      "unverified": "Unverified"
+    }
+  },
+  "Customers": {
+    "title": "Customers",
+    "description": "Manage customer profiles and view their analytics",
+    "addCustomer": "Add Customer",
+    "editCustomer": "Edit Customer",
+    "createCustomer": "Create Customer Profile",
+    "deleteCustomer": "Delete Customer",
+    "customerCreated": "Customer created successfully",
+    "customerUpdated": "Customer updated successfully",
+    "customerDeleted": "Customer deleted successfully",
+    "fields": {
+      "userId": "Select User",
+      "dateOfBirth": "Date of Birth",
+      "gender": "Gender",
+      "lastLogin": "Last Login",
+      "totalOrders": "Total Orders",
+      "totalSpent": "Total Spent"
+    },
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "other": "Other",
+      "preferNotToSay": "Prefer not to say",
+      "notSpecified": "Not specified"
+    },
+    "placeholders": {
+      "selectUser": "Select a customer user",
+      "dateOfBirth": "YYYY-MM-DD",
+      "gender": "Select gender (optional)"
+    },
+    "table": {
+      "columns": {
+        "customer": "Customer",
+        "gender": "Gender",
+        "totalOrders": "Total Orders",
+        "totalSpent": "Total Spent",
+        "lastLogin": "Last Login",
+        "joined": "Joined"
+      },
+      "actions": {
+        "copyId": "Copy customer ID",
+        "copyEmail": "Copy email",
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    },
+    "confirmDelete": "Are you sure you want to delete the customer profile for \"{name}\"?",
+    "deleteWithOrders": "Cannot delete customer with order history ({count} orders). Consider anonymizing the data instead for GDPR compliance.",
+    "metricsNote": "Order metrics are automatically calculated",
+    "createNote": "Create a customer profile for an existing user.",
+    "updateNote": "Update the customer profile information.",
+    "lastLoginNever": "Never",
+    "loadingUsers": "Loading users..."
+  },
+  "DataTable": {
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of",
+      "rows": "rows",
+      "rowsPerPage": "Rows per page",
+      "goToFirstPage": "Go to first page",
+      "goToPreviousPage": "Go to previous page", 
+      "goToNextPage": "Go to next page",
+      "goToLastPage": "Go to last page"
+    },
+    "toolbar": {
+      "search": "Search",
+      "filter": "Filter",
+      "columns": "Columns",
+      "export": "Export",
+      "reset": "Reset",
+      "selectedRows": "{count} row(s) selected"
+    },
+    "filters": {
+      "clearFilters": "Clear filters",
+      "hideFilters": "Hide filters",
+      "showFilters": "Show filters"
+    },
+    "sorting": {
+      "sortBy": "Sort by",
+      "ascending": "Ascending",
+      "descending": "Descending",
+      "unsorted": "Unsorted"
+    },
+    "columnToggle": {
+      "toggleColumns": "Toggle columns",
+      "hideAll": "Hide all",
+      "showAll": "Show all"
+    },
+    "noResults": "No results found",
+    "loading": "Loading data..."
+  },
+  "Modals": {
+    "close": "Close",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "create": "Create",
+    "update": "Update",
+    "confirmAction": "Are you sure?",
+    "unsavedChanges": "You have unsaved changes. Are you sure you want to leave?",
+    "deleteConfirmation": "This action cannot be undone."
+  },
+  "Validation": {
+    "required": "This field is required",
+    "email": "Please enter a valid email address",
+    "minLength": "Must be at least {min} characters",
+    "maxLength": "Must be no more than {max} characters",
+    "invalidUrl": "Please enter a valid URL",
+    "invalidDate": "Please enter a valid date",
+    "invalidNumber": "Please enter a valid number",
+    "passwordMismatch": "Passwords do not match",
+    "invalidFormat": "Invalid format"
+  },
+  "Messages": {
+    "success": "Operation completed successfully",
+    "error": "An error occurred",
+    "warning": "Warning",
+    "info": "Information",
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "itemDeleted": "Item deleted successfully",
+    "itemCreated": "Item created successfully",
+    "itemUpdated": "Item updated successfully",
+    "noDataFound": "No data found",
+    "loadingData": "Loading data...",
+    "operationFailed": "Operation failed",
+    "unauthorizedAccess": "Unauthorized access",
+    "sessionExpired": "Session expired. Please login again."
   }
 }

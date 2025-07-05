@@ -1,3 +1,5 @@
+import { useTranslations } from 'next-intl';
+
 export default async function HomePage() {
   return (
     <>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Plus, RefreshCw } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { ProductsTable } from "./_components/products-table";
 import { ProductModal } from "./_components/product-modal";
 import { DeleteProductModal } from "./_components/delete-product-modal";
@@ -25,6 +26,8 @@ export function ProductsPageClient({
   initialData, 
   categories 
 }: ProductsPageClientProps) {
+  const t = useTranslations('Products');
+  const tCommon = useTranslations('Common');
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -58,9 +61,9 @@ export function ProductsPageClient({
     <div className="flex flex-col gap-4 p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Products</h1>
+          <h1 className="text-2xl font-bold">{t('title')}</h1>
           <p className="text-sm text-muted-foreground">
-            Manage your product catalog
+            {t('description')}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -71,11 +74,11 @@ export function ProductsPageClient({
             className="gap-2"
           >
             <RefreshCw className="h-4 w-4" />
-            Refresh
+            {tCommon('refresh')}
           </Button>
           <Button onClick={handleCreateProduct} className="gap-2">
             <Plus className="h-4 w-4" />
-            Add Product
+            {t('addProduct')}
           </Button>
         </div>
       </div>
